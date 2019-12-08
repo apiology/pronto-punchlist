@@ -27,7 +27,10 @@ gem install pronto-punchlist
 
 ## Usage
 
-This is typically used either as
+This is typically used either as part a custom
+[pronto](https://github.com/prontolabs/pronto) rigging, sometimes as
+part of general use of the
+[quality](https://github.com/apiology/quality) gem.
 
 ## Development
 
