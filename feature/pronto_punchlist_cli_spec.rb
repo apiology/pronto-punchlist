@@ -25,7 +25,14 @@ describe Pronto::Punchlist do
     expect(exit_code).to eq(0)
   end
 
-  xit 'lists this as a runner'
+  it 'lists this as a runner' do
+    # TODO: Figure out how to list runners
+    # TODO: Create test taht lists runners and expects this to be registered
+    # TODO: Read about what I need to do to register a runner
+    # TODO: Create spec for class
+    # TODO: Satisfy spec
+    # TODO: Satisfy feature
+  end
 
   xit 'pronto runs and finds no files'
 
