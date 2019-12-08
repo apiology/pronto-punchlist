@@ -23,7 +23,9 @@ module RSpec
   module_function
 
   def root
+    # rubocop:disable Naming/MemoizedInstanceVariableName
     @rspec_root ||= Pathname.new(__dir__)
+    # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 end
 
@@ -37,7 +39,11 @@ ENV['PATH'] = [exec_dir, ENV['PATH']].join(File::PATH_SEPARATOR)
 Dir[RSpec.root.join('support/**/*.rb')].each { |f| require f }
 
 def let_double(*doubles)
+  # Consider a verifying double instead of this:
+  #  https://relishapp.com/rspec/rspec-mocks/v/3-9/docs/verifying-doubles
+  # rubocop:disable RSpec/VerifiedDoubles
   doubles.each do |double_sym|
     let(double_sym) { double(double_sym.to_s) }
   end
+  # rubocop:enable RSpec/VerifiedDoubles
 end
