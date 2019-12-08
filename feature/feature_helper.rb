@@ -5,7 +5,7 @@ require 'open3'
 # Add the bin directory, to allow testing of gem executables as if the gem is
 # already installed.
 root_dir = RSpec::Core::RubyProject.root
-exec_dir = root_dir.join('bin')
+exec_dir = File.join(File::SEPARATOR, root_dir, 'bin')
 ENV['PATH'] = [exec_dir, ENV['PATH']].join(File::PATH_SEPARATOR)
 
 # Courtesy of:
@@ -13,9 +13,14 @@ ENV['PATH'] = [exec_dir, ENV['PATH']].join(File::PATH_SEPARATOR)
 #    capture_exec.rb
 def exec_io(*cmd)
   cmd = cmd.flatten
-  out_err, _exit_code = Open3.capture2e(*cmd)
+  env = {
+    # Avoid spurious deprecation warnings in things which are out of
+    # our control
+    'RUBYOPT' => '-W0',
+  }
+  all_out, _exit_code = Open3.capture2e(env, *cmd)
 
-  out_err
+  all_out
 end
 
 RSpec.configure do |config|
