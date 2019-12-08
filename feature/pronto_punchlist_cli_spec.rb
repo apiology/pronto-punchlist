@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'feature_helper'
+require 'pronto/punchlist'
 
 # http://www.puzzlenode.com/puzzles/13-chess-validator
 
@@ -20,21 +21,27 @@ describe Pronto::Punchlist do
       # our control
       'RUBYOPT' => '-W0',
     }
-    out, exit_code = Open3.capture2e(env, 'pronto')
+    out, exit_code = Open3.capture2e(env, 'bundle exec pronto')
     expect(out).to eq(expected_output)
     expect(exit_code).to eq(0)
   end
 
   it 'lists this as a runner' do
-    # TODO: Figure out how to list runners
-    # TODO: Create test taht lists runners and expects this to be registered
-    # TODO: Read about what I need to do to register a runner
-    # TODO: Create spec for class
-    # TODO: Satisfy spec
-    # TODO: Satisfy feature
+    expected_output = <<~OUTPUT
+      punchlist
+    OUTPUT
+    env = {
+      # Avoid spurious deprecation warnings in things which are out of
+      # our control
+      'RUBYOPT' => '-W0',
+    }
+    out, exit_code = Open3.capture2e(env, 'bundle exec pronto list')
+    expect(out).to eq(expected_output)
+    expect(exit_code).to eq(0)
   end
 
   xit 'pronto runs and finds no files'
+    # TODO: Finish out knowledge from https://kevinjalbert.com/create-your-own-pronto-runner/
 
   xit 'pronto runs and finds files to run'
 end

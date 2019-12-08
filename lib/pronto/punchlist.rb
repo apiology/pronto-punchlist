@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 require 'pronto/punchlist/version'
+require 'pronto'
 
 module Pronto
-  module Punchlist
+  class Punchlist < Runner
     class Error < StandardError; end
-    # Your code goes here...
+    def run
+      []
+    end
   end
 end

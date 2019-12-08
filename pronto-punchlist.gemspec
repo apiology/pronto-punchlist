@@ -6,7 +6,7 @@ require 'pronto/punchlist/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'pronto-punchlist'
-  spec.version       = Pronto::Punchlist::VERSION
+  spec.version       = Pronto::PunchlistVersion::VERSION
   spec.authors       = ['Vince Broz']
   spec.email         = ['vince@broz.cc']
 
