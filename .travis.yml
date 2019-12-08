@@ -5,6 +5,16 @@ rvm:
   - ruby-2.4
   - ruby-2.5
   - ruby-2.6
-  - ruby-2.7.0-preview3
-  - jruby-head
-  - ruby-head
+
+  # deprecation warnings blocking quality output counts
+  # https://travis-ci.com/apiology/pronto-punchlist/jobs/264907930
+  # - ruby-2.7.0-preview3
+
+  # JRuby error with native code build - possibly can be overcome?
+  # checking for main() in -lstdc++... RuntimeError: The compiler failed to generate
+  # https://travis-ci.com/apiology/pronto-punchlist/jobs/264907931
+  # - jruby-head
+
+  # deprecation warnings blocking quality output counts
+  # https://travis-ci.com/apiology/pronto-punchlist/jobs/264907932
+  # - ruby-head
