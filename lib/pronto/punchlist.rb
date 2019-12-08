@@ -1,4 +1,6 @@
-require "pronto/punchlist/version"
+# frozen_string_literal: true
+
+require 'pronto/punchlist/version'
 
 module Pronto
   module Punchlist

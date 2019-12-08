@@ -1,0 +1,8 @@
+language: ruby
+rvm:
+  - ruby-2.4
+  - ruby-2.5
+  - ruby-2.6
+  - ruby-2.7.0-preview3
+  - jruby-head
+  - ruby-head
