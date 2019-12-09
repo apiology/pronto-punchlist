@@ -49,15 +49,32 @@ describe Pronto::Punchlist do
 
   describe '#valid_patch?' do
     subject { pronto_punchlist.valid_patch?(patch) }
+    let(:patch) { double('patch') }
     context 'with an empty patch' do
-      let(:patch) { double('patch') }
+      before :each do
+        allow(patch).to receive(:additions) { 0 }
+      end
       it 'rejects' do
         should be false
       end
     end
-    xit 'rejects binary files'
-    xit 'accepts ruby files'
-    xit 'accepts markdown files'
+    context 'with a valid file' do
+      before :each do
+        allow(patch).to receive(:additions) { 1 }
+      end
+
+      context 'in the Ruby language' do
+        it 'accepts' do
+          should be true
+        end
+      end
+      context 'which is binary' do
+        xit 'rejects'
+      end
+      context 'which is a markdown file' do
+        xit 'accepts'
+      end
+    end
   end
 
   describe '#inspect' do

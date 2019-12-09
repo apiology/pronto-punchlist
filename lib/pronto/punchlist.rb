@@ -11,7 +11,9 @@ module Pronto
     end
 
     def valid_patch?(patch)
-      false
+      return false if patch.additions < 1
+
+      true
     end
   end
 end
