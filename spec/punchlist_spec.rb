@@ -43,6 +43,28 @@ describe Pronto::Punchlist do
     it 'returns' do
       should_not eq(nil)
     end
+
+    xit 'coordinates with other methods'
+  end
+
+  describe '#valid_patch?' do
+    xit 'rejects empty patches'
+    xit 'rejects binary files'
+    xit 'accepts ruby files'
+    xit 'accepts markdown files'
+  end
+
+  describe '#inspect' do
+    xit 'returns nothing when there are no offenses in file'
+    xit 'returns nothing when offenses are in file, but not related to patch'
+    xit 'returns something when offenses are in file, and related to patch'
+  end
+
+  describe '#new_message' do
+    xit 'returns a Method subclass'
+    xit 'contains correct offense'
+    xit 'contains correct line'
+    xit 'contains correct level'
   end
 
   # describe '#recent' do
