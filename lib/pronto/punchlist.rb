@@ -11,7 +11,7 @@ module Pronto
     end
 
     def valid_patch?(patch)
-      true
+      false
     end
   end
 end

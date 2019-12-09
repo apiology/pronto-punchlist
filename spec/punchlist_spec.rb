@@ -52,7 +52,7 @@ describe Pronto::Punchlist do
     context 'with an empty patch' do
       let(:patch) { double('patch') }
       it 'rejects' do
-        should be true
+        should be false
       end
     end
     xit 'rejects binary files'
