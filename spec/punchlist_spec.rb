@@ -49,7 +49,9 @@ describe Pronto::Punchlist do
 
   describe '#valid_patch?' do
     subject { pronto_punchlist.valid_patch?(patch) }
+
     let(:patch) { double('patch') }
+
     context 'with an empty patch' do
       before :each do
         allow(patch).to receive(:additions) { 0 }
@@ -58,19 +60,33 @@ describe Pronto::Punchlist do
         should be false
       end
     end
+
     context 'with a valid file' do
       before :each do
         allow(patch).to receive(:additions) { 1 }
       end
 
       context 'in the Ruby language' do
+        before :each do
+          allow(patch).to receive(:patch) { '/foo/bar/baz.rb' }
+        end
+
         it 'accepts' do
           should be true
         end
       end
+
       context 'which is binary' do
-        xit 'rejects'
+        before :each do
+          # TODO - do something like this: https://github.com/apiology/quality/blob/master/lib/quality/linguist_source_file_globber.rb - should I export to its own repo?  Maybe import for now and just test that this calls into that interface?
+          allow(patch).to receive(:patch) { '/foo/bar/baz.bin' }
+        end
+
+        it 'rejects' do
+          should be false
+        end
       end
+
       context 'which is a markdown file' do
         xit 'accepts'
       end
