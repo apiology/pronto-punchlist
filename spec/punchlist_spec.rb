@@ -48,7 +48,13 @@ describe Pronto::Punchlist do
   end
 
   describe '#valid_patch?' do
-    xit 'rejects empty patches'
+    subject { pronto_punchlist.valid_patch?(patch) }
+    context 'with an empty patch' do
+      let(:patch) { double('patch') }
+      it 'rejects' do
+        should be true
+      end
+    end
     xit 'rejects binary files'
     xit 'accepts ruby files'
     xit 'accepts markdown files'

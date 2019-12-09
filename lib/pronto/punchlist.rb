@@ -9,5 +9,9 @@ module Pronto
     def run
       []
     end
+
+    def valid_patch?(patch)
+      true
+    end
   end
 end
