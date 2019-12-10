@@ -18,9 +18,11 @@ describe Pronto::Punchlist do
   # end
   # let(:current_time) { Time.parse('1978-02-24 09:00am US/Eastern') }
   let(:pronto_punchlist) do
-    Pronto::Punchlist.new(patches, commit)
+    Pronto::Punchlist.new(patches, commit,
+                          source_file_globber: source_file_globber)
   end
-  # let(:client) { double('client') }
+
+  let(:source_file_globber) { double('source_file_globber') }
 
   # before :each do
   #   allow(client_class).to receive(:new).and_return(client)
@@ -54,7 +56,7 @@ describe Pronto::Punchlist do
 
     context 'with an empty patch' do
       before :each do
-        allow(patch).to receive(:additions) { 0 }
+        expect(patch).to receive(:additions) { 0 }
       end
       it 'rejects' do
         should be false
@@ -62,14 +64,19 @@ describe Pronto::Punchlist do
     end
 
     context 'with a valid file' do
+      let(:filename) { double('filename') }
+
       before :each do
-        allow(patch).to receive(:additions) { 1 }
+        expect(patch).to receive(:additions) { 1 }
+        expect(patch).to receive(:new_file_full_path) do
+          filename
+        end
+        expect(source_file_globber).to receive(:is_non_binary?)
+          .with(filename) { !file_is_binary }
       end
 
       context 'in the Ruby language' do
-        before :each do
-          allow(patch).to receive(:patch) { '/foo/bar/baz.rb' }
-        end
+        let(:file_is_binary) { false }
 
         it 'accepts' do
           should be true
@@ -77,6 +84,8 @@ describe Pronto::Punchlist do
       end
 
       context 'which is binary' do
+        let(:file_is_binary) { true }
+
         before :each do
           # TODO - do something like this: https://github.com/apiology/quality/blob/master/lib/quality/linguist_source_file_globber.rb - should I export to its own repo?  Maybe import for now and just test that this calls into that interface?
           allow(patch).to receive(:patch) { '/foo/bar/baz.bin' }
