@@ -5,18 +5,8 @@ require_relative 'spec_helper'
 require 'pronto/punchlist'
 
 describe Pronto::Punchlist do
-  # let(:client_class) { double('client_class') }
   let(:patches) { double('patches') }
   let(:commit) { double('commit') }
-  # let(:config) do
-  #   {
-  #     'consumer_key' => 'my_consumer_key',
-  #     'consumer_secret' => 'my_consumer_secret',
-  #     'oauth_token' => 'my_access_token',
-  #     'oauth_token_secret' => 'my_access_token_secret',
-  #   }
-  # end
-  # let(:current_time) { Time.parse('1978-02-24 09:00am US/Eastern') }
   let(:pronto_punchlist) do
     Pronto::Punchlist.new(patches, commit,
                           source_file_globber: source_file_globber,
@@ -32,10 +22,6 @@ describe Pronto::Punchlist do
       filename
     end
   end
-
-  # before :each do
-  #   allow(client_class).to receive(:new).and_return(client)
-  # end
 
   describe '#new' do
     subject { pronto_punchlist }
