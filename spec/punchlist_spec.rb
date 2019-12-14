@@ -137,7 +137,52 @@ describe Pronto::Punchlist do
         end
       end
     end
-    xit 'multiple offenses in file'
+
+    context 'two offenses in file' do
+      let(:offense_1) { double('offense_1') }
+      let(:offense_2) { double('offense_2') }
+      let(:offenses) { [offense_1, offense_2] }
+      before :each do
+        expect(offense_1).to receive(:line) { offense_1_line }
+        expect(offense_2).to receive(:line) { offense_2_line }
+      end
+      context 'and both related to patch' do
+        let(:offense_1_line) { start_of_change_line }
+        let(:offense_2_line) { middle_of_change_line }
+
+        xit 'returns both offenses' do
+          should eq [offense_1, offense_2]
+        end
+      end
+
+      context 'and only first related to patch' do
+        let(:offense_1_line) { start_of_change_line }
+        let(:offense_2_line) { after_end_of_change_line }
+
+        xit 'returns only first' do
+          should eq [offense_1]
+        end
+      end
+
+      context 'and only second related to patch' do
+        let(:offense_1_line) { before_beginning_of_change_line }
+        let(:offense_2_line) { middle_of_change_line }
+
+        xit 'returns only second' do
+          should eq [offense_2]
+        end
+      end
+
+      context 'and both unrelated to patch' do
+        let(:offense_1_line) { before_beginning_of_change_line }
+        let(:offense_2_line) { after_end_of_change_line }
+
+        xit 'returns nothing' do
+          should eq []
+        end
+      end
+    end
+
     xit 'multiple offenses in file'
     xit 'returns a Message subclass'
     xit 'contains correct offense'
