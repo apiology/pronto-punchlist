@@ -54,8 +54,6 @@ describe Pronto::Punchlist do
     end
 
     xit 'runs and finds files to run' do
-      # TODO: Create specs for valid_patch? that match each of the conditions in https://github.com/prontolabs/pronto-rubocop/blob/v0.8.1/lib/pronto/rubocop.rb#L34-L43
-      # TODO: Set up processing logic file by file like this: https://github.com/prontolabs/pronto-rubocop/blob/v0.8.1/lib/pronto/rubocop.rb#L34-L43
       # TODO: Get a test repo set up
       expected_output = '123'
       env = {

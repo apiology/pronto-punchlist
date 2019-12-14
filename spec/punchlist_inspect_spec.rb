@@ -35,6 +35,7 @@ describe Pronto::Punchlist do
     end
 
     let(:patch) { double('patch') }
+    let(:before_start_of_change_line) { 4 }
     let(:start_of_change_line) { 5 }
     let(:middle_of_change_line) { 6 }
     let(:end_of_change_line) { 7 }
@@ -96,16 +97,16 @@ describe Pronto::Punchlist do
       end
 
       context 'and only second related to patch' do
-        let(:offense_1_line) { before_beginning_of_change_line }
+        let(:offense_1_line) { before_start_of_change_line }
         let(:offense_2_line) { middle_of_change_line }
 
-        xit 'returns only second' do
+        it 'returns only second' do
           should eq [offense_2]
         end
       end
 
       context 'and both unrelated to patch' do
-        let(:offense_1_line) { before_beginning_of_change_line }
+        let(:offense_1_line) { before_start_of_change_line }
         let(:offense_2_line) { after_end_of_change_line }
 
         xit 'returns nothing' do
