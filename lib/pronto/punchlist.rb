@@ -29,9 +29,17 @@ module Pronto
     def inspect(patch)
       path = patch.new_file_full_path
 
-
       # TODO: Write tests to for me to write these lines: https://github.com/prontolabs/pronto-rubocop/blob/v0.8.1/lib/pronto/rubocop.rb#L39-L41
-      @punchlist.inspect_filename(path) # TODO: Write tests to force me to write this
+
+      offenses = @punchlist.inspect_filename(path) # TODO: Write tests to force me to write this
+      offense = offenses.first
+      return [] if offense.nil?
+
+      patch_line = patch.added_lines.first # TODO write tests to unack
+      offense_line = offense.line
+      return [offense] if offense_line == patch_line
+
+      []
     end
   end
 end

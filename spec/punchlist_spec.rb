@@ -112,18 +112,16 @@ describe Pronto::Punchlist do
       expect(punchlist).to receive(:inspect_filename).with(filename) do
         offenses
       end
+      allow(patch).to receive(:added_lines) do
+        [start_of_change_line, middle_of_change_line, end_of_change_line]
+      end
     end
 
     let(:patch) { double('patch') }
     let(:start_of_change_line) { 5 }
     let(:middle_of_change_line) { 6 }
     let(:end_of_change_line) { 7 }
-
-    before :each do
-      allow(punchlist).to receive(:look_for_punchlist_items) do |fname|
-        punchlist_lines[fname]
-      end
-    end
+    let(:after_end_of_change_line) { 8 }
 
     context 'no offenses are in file' do
       let(:offenses) { [] }
@@ -131,20 +129,30 @@ describe Pronto::Punchlist do
         should eq []
       end
     end
-    context 'offenses are in file, and related to patch' do
+    context 'one offense in file' do
       let(:offense) { double('offense') }
       let(:offenses) { [offense] }
-      let(:punchlist_lines) do
-        { filename => middle_of_patch_line }
+      before :each do
+        expect(offense).to receive(:line) { offense_line }
+      end
+      context 'and related to patch' do
+        let(:offense_line) { start_of_change_line }
+
+        it 'returns offense' do
+          should eq [offense]
+        end
       end
 
-      it 'returns offense' do
-        should eq [offense]
+      context 'and unrelated to patch' do
+        let(:offense_line) { after_end_of_change_line }
+
+        it 'returns nothing' do
+          should eq []
+        end
       end
     end
-    xit 'returns nothing when offenses are in file, but not related to patch' do
-      should eq []
-    end
+    xit 'multiple offenses in file'
+    xit 'multiple offenses in file'
     xit 'returns a Message subclass'
     xit 'contains correct offense'
     xit 'contains correct line'
