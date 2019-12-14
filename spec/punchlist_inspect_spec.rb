@@ -74,14 +74,14 @@ describe Pronto::Punchlist do
       let(:offense_2) { double('offense_2') }
       let(:offenses) { [offense_1, offense_2] }
       before :each do
-        expect(offense_1).to receive(:line) { offense_1_line }
-        expect(offense_2).to receive(:line) { offense_2_line }
+        allow(offense_1).to receive(:line) { offense_1_line }
+        allow(offense_2).to receive(:line) { offense_2_line }
       end
       context 'and both related to patch' do
         let(:offense_1_line) { start_of_change_line }
         let(:offense_2_line) { middle_of_change_line }
 
-        xit 'returns both offenses' do
+        it 'returns both offenses' do
           should eq [offense_1, offense_2]
         end
       end

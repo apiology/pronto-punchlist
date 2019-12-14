@@ -37,7 +37,7 @@ module Pronto
 
       patch_line = patch.added_lines.first # TODO write tests to unack
       offense_line = offense.line
-      return [offense] if offense_line == patch_line
+      return offenses if offense_line == patch_line
 
       []
     end
