@@ -19,10 +19,19 @@ describe Pronto::Punchlist do
   # let(:current_time) { Time.parse('1978-02-24 09:00am US/Eastern') }
   let(:pronto_punchlist) do
     Pronto::Punchlist.new(patches, commit,
-                          source_file_globber: source_file_globber)
+                          source_file_globber: source_file_globber,
+                          punchlist: punchlist)
   end
 
   let(:source_file_globber) { double('source_file_globber') }
+  let(:punchlist) { double('punchlist') }
+  let(:patch) { double('patch') }
+  let(:filename) { double('filename') }
+  before :each do
+    allow(patch).to receive(:new_file_full_path) do
+      filename
+    end
+  end
 
   # before :each do
   #   allow(client_class).to receive(:new).and_return(client)
@@ -52,8 +61,6 @@ describe Pronto::Punchlist do
   describe '#valid_patch?' do
     subject { pronto_punchlist.valid_patch?(patch) }
 
-    let(:patch) { double('patch') }
-
     context 'with an empty patch' do
       before :each do
         expect(patch).to receive(:additions) { 0 }
@@ -64,13 +71,9 @@ describe Pronto::Punchlist do
     end
 
     context 'with a valid file' do
-      let(:filename) { double('filename') }
 
       before :each do
         expect(patch).to receive(:additions) { 1 }
-        expect(patch).to receive(:new_file_full_path) do
-          filename
-        end
         expect(source_file_globber).to receive(:is_non_binary?)
           .with(filename) { !file_is_binary }
       end
@@ -103,13 +106,46 @@ describe Pronto::Punchlist do
   end
 
   describe '#inspect' do
-    xit 'returns nothing when there are no offenses in file'
-    xit 'returns nothing when offenses are in file, but not related to patch'
-    xit 'returns something when offenses are in file, and related to patch'
-  end
+    subject { pronto_punchlist.inspect(patch) }
 
-  describe '#new_message' do
-    xit 'returns a Method subclass'
+    before :each do
+      expect(punchlist).to receive(:inspect_filename).with(filename) do
+        offenses
+      end
+    end
+
+    let(:patch) { double('patch') }
+    let(:start_of_change_line) { 5 }
+    let(:middle_of_change_line) { 6 }
+    let(:end_of_change_line) { 7 }
+
+    before :each do
+      allow(punchlist).to receive(:look_for_punchlist_items) do |fname|
+        punchlist_lines[fname]
+      end
+    end
+
+    context 'no offenses are in file' do
+      let(:offenses) { [] }
+      it 'returns nothing' do
+        should eq []
+      end
+    end
+    context 'offenses are in file, and related to patch' do
+      let(:offense) { double('offense') }
+      let(:offenses) { [offense] }
+      let(:punchlist_lines) do
+        { filename => middle_of_patch_line }
+      end
+
+      it 'returns offense' do
+        should eq [offense]
+      end
+    end
+    xit 'returns nothing when offenses are in file, but not related to patch' do
+      should eq []
+    end
+    xit 'returns a Message subclass'
     xit 'contains correct offense'
     xit 'contains correct line'
     xit 'contains correct level'
