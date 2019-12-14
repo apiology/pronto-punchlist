@@ -90,7 +90,7 @@ describe Pronto::Punchlist do
         let(:offense_1_line) { start_of_change_line }
         let(:offense_2_line) { after_end_of_change_line }
 
-        xit 'returns only first' do
+        it 'returns only first' do
           should eq [offense_1]
         end
       end
