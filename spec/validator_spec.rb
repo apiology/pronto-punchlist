@@ -2,22 +2,14 @@
 
 require 'pronto'
 require_relative 'spec_helper'
-require 'pronto/punchlist'
+require 'pronto/punchlist/validator'
 
-describe Pronto::Punchlist do
-  # TODO: Remove duplication - focus on smaller patch
-  let(:patches) { double('patches') }
-  let(:commit) { double('commit') }
-  let(:patch_inspector) { instance_double(Pronto::Punchlist::PatchInspector) }
-  let(:pronto_punchlist) do
-    Pronto::Punchlist.new(patches, commit,
-                          source_file_globber: source_file_globber,
-                          punchlist: punchlist,
-                          patch_inspector: patch_inspector)
+describe Pronto::Punchlist::PatchValidator do
+  let(:validator) do
+    Pronto::Punchlist::PatchValidator.new(source_file_globber: source_file_globber)
   end
 
   let(:source_file_globber) { double('source_file_globber') }
-  let(:punchlist) { double('punchlist') }
   let(:patch) { double('patch') }
   let(:filename) { double('filename') }
   before :each do
@@ -27,7 +19,7 @@ describe Pronto::Punchlist do
   end
 
   describe '#valid_patch?' do
-    subject { pronto_punchlist.valid_patch?(patch) }
+    subject { validator.valid_patch?(patch) }
 
     context 'with an empty patch' do
       before :each do
