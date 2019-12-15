@@ -67,7 +67,6 @@ describe Pronto::Punchlist do
       end
 
       context 'which is a markdown file' do
-        # TODO: Get xit added to punchlist list
         xit 'accepts'
       end
     end
