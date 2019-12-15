@@ -30,6 +30,8 @@ describe Pronto::Punchlist do
         offenses
       end
       allow(patch).to receive(:added_lines) do
+        # TODO: This should return a list of objects which have a
+        # .new_lineno method that returns the line
         [start_of_change_line, middle_of_change_line, end_of_change_line]
       end
     end
@@ -47,17 +49,25 @@ describe Pronto::Punchlist do
         should eq []
       end
     end
+
     context 'one offense in file' do
       let(:offense) { double('offense') }
       let(:offenses) { [offense] }
       before :each do
-        expect(offense).to receive(:line) { offense_line }
+        allow(offense).to receive(:line) { offense_line }
       end
+
       context 'and related to patch' do
         let(:offense_line) { start_of_change_line }
 
         it 'returns offense' do
-          should eq [offense]
+          expect(subject.map(&:line)).to eq [offense.line]
+        end
+
+        xit 'returns Message subclass' do
+          subject.each do |message|
+            expect(message).to be_instance_of(Pronto::Message)
+          end
         end
       end
 
@@ -109,13 +119,12 @@ describe Pronto::Punchlist do
         let(:offense_1_line) { before_start_of_change_line }
         let(:offense_2_line) { after_end_of_change_line }
 
-        xit 'returns nothing' do
+        it 'returns nothing' do
           should eq []
         end
       end
     end
 
-    xit 'multiple offenses in file'
     xit 'returns a Message subclass'
     xit 'contains correct offense'
     xit 'contains correct line'

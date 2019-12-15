@@ -31,8 +31,14 @@ module Pronto
 
       offenses = @punchlist.inspect_filename(path)
 
-      offenses.select do |offense|
+      relevant_offenses = offenses.select do |offense|
         patch.added_lines.include? offense.line
+      end
+
+      relevant_offenses.map do |offense|
+        # TODO
+        # Message.new(nil, offense.line, :warning, nil, nil, nil)
+        offense
       end
     end
   end
