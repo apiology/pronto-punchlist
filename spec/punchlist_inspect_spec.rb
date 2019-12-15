@@ -4,6 +4,7 @@ require 'pronto'
 require_relative 'spec_helper'
 require 'pronto/punchlist'
 
+# TODO: Test smaller class
 describe Pronto::Punchlist do
   let(:pronto_punchlist) do
     Pronto::Punchlist.new(patches, commit,
