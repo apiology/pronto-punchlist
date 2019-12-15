@@ -8,11 +8,13 @@ describe Pronto::Punchlist do
   let(:patches) { double('patches') }
   let(:commit) { double('commit') }
   let(:patch_inspector) { instance_double(Pronto::Punchlist::PatchInspector) }
+  let(:patch_validator) { instance_double(Pronto::Punchlist::PatchValidator) }
   let(:pronto_punchlist) do
     Pronto::Punchlist.new(patches, commit,
                           source_file_globber: source_file_globber,
                           punchlist: punchlist,
-                          patch_inspector: patch_inspector)
+                          patch_inspector: patch_inspector,
+                          patch_validator: patch_validator)
   end
 
   let(:source_file_globber) { double('source_file_globber') }
@@ -52,6 +54,23 @@ describe Pronto::Punchlist do
 
     it 'calls into @inspector' do
       should be messages
+    end
+  end
+
+  describe '#valid_patch?' do
+    subject { pronto_punchlist.valid_patch?(patch) }
+
+    let(:messages) { double('messages') }
+    let(:validator_return) { double('validator_return') }
+
+    before :each do
+      expect(patch_validator).to receive(:valid_patch?).with(patch) do
+        validator_return
+      end
+    end
+
+    it 'calls into @inspector' do
+      should be validator_return
     end
   end
 end

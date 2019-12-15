@@ -10,11 +10,14 @@ module Pronto
     def initialize(patches, commit = nil,
                    source_file_globber: nil,
                    punchlist: nil,
-                   patch_inspector: PatchInspector.new(punchlist: punchlist))
+                   patch_inspector: PatchInspector.new(punchlist: punchlist),
+                   patch_validator: PatchValidator.new(source_file_globber:
+                                                         @source_file_globber))
       super(patches, commit)
       @source_file_globber = source_file_globber
       @punchlist = punchlist
       @patch_inspector = patch_inspector
+      @patch_validator = patch_validator
     end
 
     class Error < StandardError; end
@@ -23,7 +26,7 @@ module Pronto
     end
 
     def valid_patch?(patch)
-      PatchValidator.new(source_file_globber: @source_file_globber).valid_patch?(patch)
+      @patch_validator.valid_patch?(patch)
     end
 
     def inspect(patch)
