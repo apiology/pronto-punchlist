@@ -32,7 +32,7 @@ module Pronto
       offenses = @punchlist.inspect_filename(path)
 
       relevant_offenses = offenses.select do |offense|
-        patch.added_lines.include? offense.line
+        patch.added_lines.map(&:new_lineno).include? offense.line
       end
 
       relevant_offenses.map do |offense|

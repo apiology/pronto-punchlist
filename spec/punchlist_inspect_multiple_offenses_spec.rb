@@ -30,9 +30,20 @@ describe Pronto::Punchlist do
         offenses
       end
       allow(patch).to receive(:added_lines) do
-        # TODO: This should return a list of objects which have a
-        # .new_lineno method that returns the line
-        [start_of_change_line, middle_of_change_line, end_of_change_line]
+        [
+          start_of_change_line_obj,
+          middle_of_change_line_obj,
+          end_of_change_line_obj,
+        ]
+      end
+      allow(start_of_change_line_obj).to receive(:new_lineno) do
+        start_of_change_line
+      end
+      allow(middle_of_change_line_obj).to receive(:new_lineno) do
+        middle_of_change_line
+      end
+      allow(end_of_change_line_obj).to receive(:new_lineno) do
+        end_of_change_line
       end
     end
 
@@ -43,6 +54,9 @@ describe Pronto::Punchlist do
     let(:end_of_change_line) { 7 }
     let(:after_end_of_change_line) { 8 }
 
+    let(:start_of_change_line_obj) { double('start_of_change_line_obj') }
+    let(:middle_of_change_line_obj) { double('middle_of_change_line_obj') }
+    let(:end_of_change_line_obj) { double('end_of_change_line_obj') }
 
     context 'two offenses in file' do
       let(:offense_1) { double('offense_1') }
