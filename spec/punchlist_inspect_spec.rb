@@ -52,7 +52,7 @@ describe Pronto::Punchlist do
       end_of_change_line_obj
     end
 
-    let(:patch) { double('patch') }
+    let(:patch) { instance_double(Pronto::Git::Patch) }
     let(:before_start_of_change_line) { 4 }
     let(:start_of_change_line) { 5 }
     let(:middle_of_change_line) { 6 }
