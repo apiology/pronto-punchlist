@@ -5,17 +5,12 @@ require_relative 'spec_helper'
 require 'pronto/punchlist'
 
 # TODO: Test smaller class
-describe Pronto::Punchlist do
-  let(:pronto_punchlist) do
-    Pronto::Punchlist.new(patches, commit,
-                          source_file_globber: source_file_globber,
-                          punchlist: punchlist)
+describe Pronto::Punchlist::Inspector do
+  let(:inspector) do
+    Pronto::Punchlist::Inspector.new(punchlist: punchlist)
   end
-  let(:commit) { double('commit') }
   let(:punchlist) { double('punchlist') }
-  let(:patches) { double('patches') }
   let(:patch) { double('patch') }
-  let(:source_file_globber) { double('source_file_globber') }
   let(:filename) { double('filename') }
   before :each do
     allow(patch).to receive(:new_file_full_path) do
