@@ -4,7 +4,6 @@ require 'pronto'
 require_relative 'spec_helper'
 require 'pronto/punchlist'
 
-# TODO: Test smaller class
 describe Pronto::Punchlist::Inspector do
   let(:inspector) do
     Pronto::Punchlist::Inspector.new(punchlist: punchlist)
@@ -26,8 +25,6 @@ describe Pronto::Punchlist::Inspector do
         offenses
       end
       allow(patch).to receive(:added_lines) do
-        # TODO: This should return a list of objects which have a
-        # .new_lineno method that returns the line
         [
           start_of_change_line_obj,
           middle_of_change_line_obj,
