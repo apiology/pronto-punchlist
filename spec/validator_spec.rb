@@ -8,12 +8,12 @@ describe Pronto::Punchlist do
   # TODO: Remove duplication - focus on smaller patch
   let(:patches) { double('patches') }
   let(:commit) { double('commit') }
-  let(:inspector) { instance_double(Pronto::Punchlist::Inspector) }
+  let(:patch_inspector) { instance_double(Pronto::Punchlist::PatchInspector) }
   let(:pronto_punchlist) do
     Pronto::Punchlist.new(patches, commit,
                           source_file_globber: source_file_globber,
                           punchlist: punchlist,
-                          inspector: inspector)
+                          patch_inspector: patch_inspector)
   end
 
   let(:source_file_globber) { double('source_file_globber') }

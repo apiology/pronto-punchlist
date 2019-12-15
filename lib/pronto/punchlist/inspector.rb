@@ -2,11 +2,34 @@ require 'pronto'
 
 module Pronto
   class Punchlist < Runner
-    class Inspector
+    class OffenseAdapter
       MESSAGE = 'Uncompleted punchlist item detected -' \
                 'consider resolving or moving this to ' \
                 'your issue tracker'.freeze
-      def initialize(punchlist: )
+
+      def initialize(offense)
+        @offense = offense
+      end
+
+      def inspect_patch(patch)
+        messages = []
+        patch.added_lines.each do |line|
+          message = inspect_line(line)
+          messages << message unless message.nil?
+        end
+        messages
+      end
+
+      def inspect_line(line)
+        return nil unless line.new_lineno == @offense.line
+
+        # TODO: spec to force nils
+        Message.new(nil, line, :warning, MESSAGE, nil, nil)
+      end
+    end
+
+    class PatchInspector
+      def initialize(punchlist:)
         @punchlist = punchlist
       end
 
@@ -15,16 +38,10 @@ module Pronto
 
         offenses = @punchlist.inspect_filename(path)
 
-        messages = []
-        offenses.each do |offense|
-          patch.added_lines.each do |line|
-            if line.new_lineno == offense.line
-              # TODO: spec to force nils
-              messages << Message.new(nil, line, :warning, MESSAGE, nil, nil)
-            end
-          end
+        offenses.flat_map do |offense|
+          offense_adapter = OffenseAdapter.new(offense)
+          offense_adapter.inspect_patch(patch)
         end
-        messages
       end
     end
   end

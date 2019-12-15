@@ -7,12 +7,12 @@ require 'pronto/punchlist'
 describe Pronto::Punchlist do
   let(:patches) { double('patches') }
   let(:commit) { double('commit') }
-  let(:inspector) { instance_double(Pronto::Punchlist::Inspector) }
+  let(:patch_inspector) { instance_double(Pronto::Punchlist::PatchInspector) }
   let(:pronto_punchlist) do
     Pronto::Punchlist.new(patches, commit,
                           source_file_globber: source_file_globber,
                           punchlist: punchlist,
-                          inspector: inspector)
+                          patch_inspector: patch_inspector)
   end
 
   let(:source_file_globber) { double('source_file_globber') }
@@ -47,7 +47,7 @@ describe Pronto::Punchlist do
     let(:messages) { double('messages') }
 
     before :each do
-      expect(inspector).to receive(:inspect).with(patch) { messages }
+      expect(patch_inspector).to receive(:inspect).with(patch) { messages }
     end
 
     it 'calls into @inspector' do

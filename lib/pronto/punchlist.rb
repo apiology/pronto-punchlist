@@ -10,11 +10,11 @@ module Pronto
     def initialize(patches, commit = nil,
                    source_file_globber: nil,
                    punchlist: nil,
-                   inspector: Inspector.new(punchlist: punchlist))
+                   patch_inspector: PatchInspector.new(punchlist: punchlist))
       super(patches, commit)
       @source_file_globber = source_file_globber
       @punchlist = punchlist
-      @inspector = inspector
+      @patch_inspector = patch_inspector
     end
 
     class Error < StandardError; end
@@ -27,7 +27,7 @@ module Pronto
     end
 
     def inspect(patch)
-      @inspector.inspect(patch)
+      @patch_inspector.inspect(patch)
     end
   end
 end

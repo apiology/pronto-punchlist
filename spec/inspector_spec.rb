@@ -4,9 +4,9 @@ require 'pronto'
 require_relative 'spec_helper'
 require 'pronto/punchlist/inspector'
 
-describe Pronto::Punchlist::Inspector do
+describe Pronto::Punchlist::PatchInspector do
   let(:inspector) do
-    Pronto::Punchlist::Inspector.new(punchlist: punchlist)
+    Pronto::Punchlist::PatchInspector.new(punchlist: punchlist)
   end
   let(:punchlist) { double('punchlist') }
   let(:patch) { double('patch') }
