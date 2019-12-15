@@ -2,6 +2,7 @@
 
 require 'pronto/punchlist/version'
 require 'pronto/punchlist/inspector'
+require 'pronto/punchlist/validator'
 require 'pronto'
 
 module Pronto
@@ -22,11 +23,7 @@ module Pronto
     end
 
     def valid_patch?(patch)
-      return false if patch.additions < 1
-
-      path = patch.new_file_full_path
-
-      @source_file_globber.is_non_binary?(path)
+      PatchValidator.new(source_file_globber: @source_file_globber).valid_patch?(patch)
     end
 
     def inspect(patch)
