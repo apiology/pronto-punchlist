@@ -8,13 +8,10 @@ require 'pronto'
 module Pronto
   class Punchlist < Runner
     def initialize(patches, commit = nil,
-                   source_file_globber: nil,
-                   punchlist: nil,
+                   punchlist:,
                    patch_inspector: PatchInspector.new(punchlist: punchlist),
-                   patch_validator: PatchValidator.new(source_file_globber:
-                                                         @source_file_globber))
+                   patch_validator: PatchValidator.new)
       super(patches, commit)
-      @source_file_globber = source_file_globber
       @punchlist = punchlist
       @patch_inspector = patch_inspector
       @patch_validator = patch_validator

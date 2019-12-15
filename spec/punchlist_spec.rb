@@ -11,13 +11,11 @@ describe Pronto::Punchlist do
   let(:patch_validator) { instance_double(Pronto::Punchlist::PatchValidator) }
   let(:pronto_punchlist) do
     Pronto::Punchlist.new(patches, commit,
-                          source_file_globber: source_file_globber,
                           punchlist: punchlist,
                           patch_inspector: patch_inspector,
                           patch_validator: patch_validator)
   end
 
-  let(:source_file_globber) { double('source_file_globber') }
   let(:punchlist) { double('punchlist') }
   let(:patch) { double('patch') }
   let(:filename) { double('filename') }
