@@ -7,10 +7,12 @@ require 'pronto/punchlist'
 describe Pronto::Punchlist do
   let(:patches) { double('patches') }
   let(:commit) { double('commit') }
+  let(:inspector) { instance_double(Pronto::Punchlist::Inspector) }
   let(:pronto_punchlist) do
     Pronto::Punchlist.new(patches, commit,
                           source_file_globber: source_file_globber,
-                          punchlist: punchlist)
+                          punchlist: punchlist,
+                          inspector: inspector)
   end
 
   let(:source_file_globber) { double('source_file_globber') }
@@ -88,6 +90,20 @@ describe Pronto::Punchlist do
       context 'which is a markdown file' do
         # TODO: Get xit added to punchlist list
         xit 'accepts'
+      end
+    end
+
+    describe '#inspect' do
+      subject { pronto_punchlist.inspect(patch) }
+
+      let(:messages) { double('messages') }
+
+      before :each do
+        expect(inspector).to receive(:inspect).with(patch) { messages }
+      end
+
+      it 'calls into @inspector' do
+        should be messages
       end
     end
   end

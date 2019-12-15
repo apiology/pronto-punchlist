@@ -8,11 +8,12 @@ module Pronto
   class Punchlist < Runner
     def initialize(patches, commit = nil,
                    source_file_globber: nil,
-                   punchlist: nil)
+                   punchlist: nil,
+                   inspector: Inspector.new(punchlist: punchlist))
       super(patches, commit)
       @source_file_globber = source_file_globber
       @punchlist = punchlist
-      @inspector = Inspector.new(punchlist: @punchlist)
+      @inspector = inspector
     end
 
     class Error < StandardError; end
