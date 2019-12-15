@@ -59,7 +59,6 @@ describe Pronto::Punchlist do
     end
 
     context 'with a valid file' do
-
       before :each do
         expect(patch).to receive(:additions) { 1 }
         expect(source_file_globber).to receive(:is_non_binary?)
@@ -92,19 +91,19 @@ describe Pronto::Punchlist do
         xit 'accepts'
       end
     end
+  end
 
-    describe '#inspect' do
-      subject { pronto_punchlist.inspect(patch) }
+  describe '#inspect' do
+    subject { pronto_punchlist.inspect(patch) }
 
-      let(:messages) { double('messages') }
+    let(:messages) { double('messages') }
 
-      before :each do
-        expect(inspector).to receive(:inspect).with(patch) { messages }
-      end
+    before :each do
+      expect(inspector).to receive(:inspect).with(patch) { messages }
+    end
 
-      it 'calls into @inspector' do
-        should be messages
-      end
+    it 'calls into @inspector' do
+      should be messages
     end
   end
 end
