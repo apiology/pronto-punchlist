@@ -47,16 +47,23 @@ describe Pronto::Punchlist do
       end
     end
 
-    let(:patch) { double('patch') }
+    let(:patch) { instance_double(Pronto::Git::Patch) }
     let(:before_start_of_change_line) { 4 }
     let(:start_of_change_line) { 5 }
     let(:middle_of_change_line) { 6 }
     let(:end_of_change_line) { 7 }
     let(:after_end_of_change_line) { 8 }
+    let(:commit_sha) { instance_double(String) }
 
-    let(:start_of_change_line_obj) { double('start_of_change_line_obj') }
-    let(:middle_of_change_line_obj) { double('middle_of_change_line_obj') }
-    let(:end_of_change_line_obj) { double('end_of_change_line_obj') }
+    let(:start_of_change_line_obj) do
+      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+    end
+    let(:middle_of_change_line_obj) do
+      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+    end
+    let(:end_of_change_line_obj) do
+      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+    end
 
     context 'two offenses in file' do
       let(:offense_1) { double('offense_1') }
@@ -71,7 +78,8 @@ describe Pronto::Punchlist do
         let(:offense_2_line) { middle_of_change_line }
 
         it 'returns both offenses' do
-          should eq [offense_1, offense_2]
+          expect(subject.map(&:line)).to eq [start_of_change_line_obj,
+                                             middle_of_change_line_obj]
         end
       end
 
@@ -80,7 +88,7 @@ describe Pronto::Punchlist do
         let(:offense_2_line) { after_end_of_change_line }
 
         it 'returns only first' do
-          should eq [offense_1]
+          expect(subject.map(&:line)).to eq [start_of_change_line_obj]
         end
       end
 
@@ -89,7 +97,7 @@ describe Pronto::Punchlist do
         let(:offense_2_line) { middle_of_change_line }
 
         it 'returns only second' do
-          should eq [offense_2]
+          expect(subject.map(&:line)).to eq [middle_of_change_line_obj]
         end
       end
 

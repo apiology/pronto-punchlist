@@ -58,10 +58,17 @@ describe Pronto::Punchlist do
     let(:middle_of_change_line) { 6 }
     let(:end_of_change_line) { 7 }
     let(:after_end_of_change_line) { 8 }
+    let(:commit_sha) { instance_double(String) }
 
-    let(:start_of_change_line_obj) { double('start_of_change_line_obj') }
-    let(:middle_of_change_line_obj) { double('middle_of_change_line_obj') }
-    let(:end_of_change_line_obj) { double('end_of_change_line_obj') }
+    let(:start_of_change_line_obj) do
+      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+    end
+    let(:middle_of_change_line_obj) do
+      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+    end
+    let(:end_of_change_line_obj) do
+      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+    end
 
     context 'no offenses are in file' do
       let(:offenses) { [] }
@@ -81,10 +88,10 @@ describe Pronto::Punchlist do
         let(:offense_line) { start_of_change_line }
 
         it 'returns offense' do
-          expect(subject.map(&:line)).to eq [offense.line]
+          expect(subject.map(&:line)).to eq [start_of_change_line_obj]
         end
 
-        xit 'returns Message subclass' do
+        it 'returns Message subclass' do
           subject.each do |message|
             expect(message).to be_instance_of(Pronto::Message)
           end
