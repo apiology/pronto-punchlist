@@ -2,7 +2,7 @@
 
 require 'pronto'
 require_relative 'spec_helper'
-require 'pronto/punchlist'
+require 'pronto/punchlist/inspector'
 
 describe Pronto::Punchlist::Inspector do
   let(:inspector) do
@@ -40,9 +40,6 @@ describe Pronto::Punchlist::Inspector do
       allow(end_of_change_line_obj).to receive(:new_lineno) do
         end_of_change_line
       end
-
-      middle_of_change_line_obj
-      end_of_change_line_obj
     end
 
     let(:patch) { instance_double(Pronto::Git::Patch) }
