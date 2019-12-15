@@ -92,6 +92,14 @@ describe Pronto::Punchlist::Inspector do
             expect(message.line.new_lineno).to eq(offense_line)
           end
         end
+
+        it 'contains correct offense' do
+          subject.each do |message|
+            expect(message.msg).to eq('Uncompleted punchlist item detected -' \
+                                      'consider resolving or moving this to ' \
+                                      'your issue tracker')
+          end
+        end
       end
 
       context 'and unrelated to patch' do
@@ -103,7 +111,6 @@ describe Pronto::Punchlist::Inspector do
       end
     end
 
-    xit 'contains correct offense'
     xit 'contains correct level'
   end
 end
