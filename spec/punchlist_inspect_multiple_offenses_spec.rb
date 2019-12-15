@@ -43,45 +43,50 @@ describe Pronto::Punchlist do
     let(:end_of_change_line) { 7 }
     let(:after_end_of_change_line) { 8 }
 
-    context 'no offenses are in file' do
-      let(:offenses) { [] }
-      it 'returns nothing' do
-        should eq []
-      end
-    end
 
-    context 'one offense in file' do
-      let(:offense) { double('offense') }
-      let(:offenses) { [offense] }
+    context 'two offenses in file' do
+      let(:offense_1) { double('offense_1') }
+      let(:offense_2) { double('offense_2') }
+      let(:offenses) { [offense_1, offense_2] }
       before :each do
-        allow(offense).to receive(:line) { offense_line }
+        allow(offense_1).to receive(:line) { offense_1_line }
+        allow(offense_2).to receive(:line) { offense_2_line }
       end
+      context 'and both related to patch' do
+        let(:offense_1_line) { start_of_change_line }
+        let(:offense_2_line) { middle_of_change_line }
 
-      context 'and related to patch' do
-        let(:offense_line) { start_of_change_line }
-
-        it 'returns offense' do
-          expect(subject.map(&:line)).to eq [offense.line]
-        end
-
-        xit 'returns Message subclass' do
-          subject.each do |message|
-            expect(message).to be_instance_of(Pronto::Message)
-          end
+        it 'returns both offenses' do
+          should eq [offense_1, offense_2]
         end
       end
 
-      context 'and unrelated to patch' do
-        let(:offense_line) { after_end_of_change_line }
+      context 'and only first related to patch' do
+        let(:offense_1_line) { start_of_change_line }
+        let(:offense_2_line) { after_end_of_change_line }
+
+        it 'returns only first' do
+          should eq [offense_1]
+        end
+      end
+
+      context 'and only second related to patch' do
+        let(:offense_1_line) { before_start_of_change_line }
+        let(:offense_2_line) { middle_of_change_line }
+
+        it 'returns only second' do
+          should eq [offense_2]
+        end
+      end
+
+      context 'and both unrelated to patch' do
+        let(:offense_1_line) { before_start_of_change_line }
+        let(:offense_2_line) { after_end_of_change_line }
 
         it 'returns nothing' do
           should eq []
         end
       end
     end
-
-    xit 'contains correct offense'
-    xit 'contains correct line'
-    xit 'contains correct level'
   end
 end
