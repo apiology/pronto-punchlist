@@ -67,7 +67,15 @@ describe Pronto::Punchlist do
       end
 
       context 'which is a markdown file' do
-        xit 'accepts'
+        let(:file_is_binary) { false }
+
+        before :each do
+          allow(patch).to receive(:patch) { '/foo/bar/baz.md' }
+        end
+
+        it 'accepts' do
+          should be true
+        end
       end
     end
   end

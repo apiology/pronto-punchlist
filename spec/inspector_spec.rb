@@ -89,6 +89,12 @@ describe Pronto::Punchlist::Inspector do
             expect(message).to be_instance_of(Pronto::Message)
           end
         end
+
+        it 'contains correct line' do
+          subject.each do |message|
+            expect(message.line.new_lineno).to eq(offense_line)
+          end
+        end
       end
 
       context 'and unrelated to patch' do
@@ -101,7 +107,6 @@ describe Pronto::Punchlist::Inspector do
     end
 
     xit 'contains correct offense'
-    xit 'contains correct line'
     xit 'contains correct level'
   end
 end
