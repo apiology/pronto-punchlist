@@ -1,3 +1,5 @@
+require 'pronto'
+
 module Pronto
   class Punchlist < Runner
     class Inspector

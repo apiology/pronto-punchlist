@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'pronto/punchlist/version'
+require 'pronto/punchlist/inspector'
 require 'pronto'
-require_relative 'inspector'
 
 module Pronto
   class Punchlist < Runner
