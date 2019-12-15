@@ -12,6 +12,7 @@ module Pronto
       super(patches, commit)
       @source_file_globber = source_file_globber
       @punchlist = punchlist
+      @inspector = Inspector.new(punchlist: @punchlist)
     end
 
     class Error < StandardError; end
@@ -28,7 +29,7 @@ module Pronto
     end
 
     def inspect(patch)
-      Inspector.new(punchlist: @punchlist).inspect(patch)
+      @inspector.inspect(patch)
     end
   end
 end
