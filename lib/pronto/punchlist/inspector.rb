@@ -28,8 +28,10 @@ module Pronto
     end
 
     class PatchInspector
-      def initialize(punchlist:)
+      def initialize(punchlist:,
+                     message_creator_class: MessageCreator)
         @punchlist = punchlist
+        @message_creator_class = message_creator_class
       end
 
       def inspect(patch)
@@ -39,7 +41,7 @@ module Pronto
 
         messages = []
         offenses.each do |offense|
-          message_creator = MessageCreator.new(offense)
+          message_creator = @message_creator_class.new(offense)
           # TODO: this doesn't reutrn correct thing - fix
           message = message_creator.inspect_patch(patch)
           messages << message unless message.nil?
