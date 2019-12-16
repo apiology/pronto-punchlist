@@ -3,7 +3,7 @@ require 'pronto'
 module Pronto
   class Punchlist < Runner
     class PatchValidator
-      def initialize(source_file_globber: )
+      def initialize(source_file_globber: nil)
         @source_file_globber = source_file_globber
       end
 

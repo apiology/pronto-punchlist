@@ -8,7 +8,7 @@ require 'pronto'
 module Pronto
   class Punchlist < Runner
     def initialize(patches, commit = nil,
-                   punchlist:,
+                   punchlist: nil,
                    patch_inspector: PatchInspector.new(punchlist: punchlist),
                    patch_validator: PatchValidator.new)
       super(patches, commit)
