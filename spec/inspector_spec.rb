@@ -93,6 +93,12 @@ describe Pronto::Punchlist::PatchInspector do
           end
         end
 
+        it 'contains correct level' do
+          subject.each do |message|
+            expect(message.level).to eq(:warning)
+          end
+        end
+
         it 'contains correct offense' do
           subject.each do |message|
             expect(message.msg).to eq('Uncompleted punchlist item detected -' \
@@ -110,7 +116,5 @@ describe Pronto::Punchlist::PatchInspector do
         end
       end
     end
-
-    xit 'contains correct level'
   end
 end
