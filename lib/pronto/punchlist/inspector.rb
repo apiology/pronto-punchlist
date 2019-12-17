@@ -33,7 +33,7 @@ module Pronto
         @message_creator_class = message_creator_class
       end
 
-      def inspect(patch)
+      def inspect_patch(patch)
         path = patch.new_file_full_path
 
         offenses = @punchlist.inspect_filename(path)

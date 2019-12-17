@@ -41,13 +41,13 @@ describe Pronto::Punchlist do
     xit 'coordinates with other methods'
   end
 
-  describe '#inspect' do
-    subject { pronto_punchlist.inspect(patch) }
+  describe '#inspect_patch' do
+    subject { pronto_punchlist.inspect_patch(patch) }
 
     let(:messages) { double('messages') }
 
     before :each do
-      expect(patch_inspector).to receive(:inspect).with(patch) { messages }
+      expect(patch_inspector).to receive(:inspect_patch).with(patch) { messages }
     end
 
     it 'calls into @inspector' do

@@ -26,8 +26,8 @@ module Pronto
       @patch_validator.valid_patch?(patch)
     end
 
-    def inspect(patch)
-      @patch_inspector.inspect(patch)
+    def inspect_patch(patch)
+      @patch_inspector.inspect_patch(patch)
     end
   end
 end

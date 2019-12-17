@@ -18,7 +18,7 @@ describe Pronto::Punchlist::PatchInspector do
   end
 
   describe '#inspect' do
-    subject { inspector.inspect(patch) }
+    subject { inspector.inspect_patch(patch) }
 
     before :each do
       expect(punchlist).to receive(:inspect_filename).with(filename) do
