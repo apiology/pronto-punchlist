@@ -41,7 +41,6 @@ module Pronto
         messages = []
         offenses.each do |offense|
           message_creator = @message_creator_class.new(offense)
-          # TODO: this doesn't reutrn correct thing - fix
           message = message_creator.inspect_patch(patch)
           messages << message unless message.nil?
         end
