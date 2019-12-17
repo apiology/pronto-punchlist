@@ -40,6 +40,7 @@ describe Pronto::Punchlist::MessageCreator do
     let(:end_of_change_line) { 7 }
     let(:after_end_of_change_line) { 8 }
     let(:commit_sha) { instance_double(String) }
+    let(:new_file_full_path) { instance_double(String) }
 
     let(:start_of_change_line_obj) do
       instance_double(Pronto::Git::Line, commit_sha: commit_sha)
@@ -54,6 +55,7 @@ describe Pronto::Punchlist::MessageCreator do
     let(:offenses) { [offense] }
     before :each do
       allow(offense).to receive(:line) { offense_line }
+      allow(patch).to receive(:new_file_full_path) { new_file_full_path }
     end
 
     context 'and related to patch' do
@@ -74,6 +76,14 @@ describe Pronto::Punchlist::MessageCreator do
       it 'contains correct level' do
         expect(subject.level).to eq(:warning)
       end
+
+      it 'contains correct path' do
+        expect(subject.path).to eq(new_file_full_path)
+      end
+
+      xit 'contains correct commit_sha'
+
+      xit 'contains correct runner'
 
       it 'contains correct offense' do
         expect(subject.msg).to eq('Uncompleted punchlist item detected -' \

@@ -13,17 +13,17 @@ module Pronto
 
       def inspect_patch(patch)
         patch.added_lines.each do |line|
-          message = inspect_line(line)
+          message = inspect_line(patch.new_file_full_path, line)
           return message unless message.nil?
         end
         nil
       end
 
-      def inspect_line(line)
+      def inspect_line(path, line)
         return nil unless line.new_lineno == @offense.line
 
         # TODO: spec to force nils
-        Message.new(nil, line, :warning, MESSAGE, nil, nil)
+        Message.new(path, line, :warning, MESSAGE, nil, nil)
       end
     end
 
