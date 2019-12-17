@@ -5,7 +5,6 @@ require_relative 'spec_helper'
 require 'pronto/punchlist'
 
 describe Pronto::Punchlist do
-  let(:patches) { double('patches') }
   let(:commit) { double('commit') }
   let(:patch_inspector) { instance_double(Pronto::Punchlist::PatchInspector) }
   let(:patch_validator) { instance_double(Pronto::Punchlist::PatchValidator) }
@@ -22,6 +21,9 @@ describe Pronto::Punchlist do
 
   describe '#new' do
     subject { pronto_punchlist }
+
+    let(:patches) { double('patches') }
+
     it 'initializes' do
       should_not eq(nil)
     end
@@ -34,17 +36,38 @@ describe Pronto::Punchlist do
   describe '#run' do
     subject { pronto_punchlist.run }
 
-    it 'returns' do
-      should_not eq(nil)
+    context 'with no patches' do
+      let(:patches) { nil }
+
+      it 'returns' do
+        should eq([])
+      end
     end
 
-    xit 'coordinates with other methods'
+    context 'with a single patch which returns issues' do
+      let(:patches) { [patch] }
+      let(:messages) { double('messages') }
+
+      before :each do
+        expect(patch_inspector).to receive(:inspect_patch).with(patch) do
+          messages
+        end
+      end
+
+      context 'which is valid' do
+        it 'passes back output of inspector' do
+          should be messages
+        end
+      end
+    end
+    # TODO: Add enough tests to recreate run method in https://kevinjalbert.com/create-your-own-pronto-runner/
   end
 
   describe '#inspect_patch' do
     subject { pronto_punchlist.inspect_patch(patch) }
 
     let(:messages) { double('messages') }
+    let(:patches) { double('patches') }
 
     before :each do
       expect(patch_inspector).to receive(:inspect_patch).with(patch) { messages }
@@ -59,6 +82,7 @@ describe Pronto::Punchlist do
     subject { pronto_punchlist.valid_patch?(patch) }
 
     let(:messages) { double('messages') }
+    let(:patches) { double('patches') }
     let(:validator_return) { double('validator_return') }
 
     before :each do

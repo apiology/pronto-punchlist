@@ -19,7 +19,9 @@ module Pronto
 
     class Error < StandardError; end
     def run
-      []
+      return [] unless @patches
+
+      self.inspect_patch(@patches.first)
     end
 
     def valid_patch?(patch)
