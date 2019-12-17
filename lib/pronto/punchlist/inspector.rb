@@ -22,8 +22,7 @@ module Pronto
       def inspect_line(path, line)
         return nil unless line.new_lineno == @offense.line
 
-        # TODO: spec to force nils
-        Message.new(path, line, :warning, MESSAGE, nil, nil)
+        Message.new(path, line, :warning, MESSAGE, nil, Pronto::Punchlist)
       end
     end
 

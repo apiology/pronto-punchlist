@@ -81,9 +81,13 @@ describe Pronto::Punchlist::MessageCreator do
         expect(subject.path).to eq(new_file_full_path)
       end
 
-      xit 'contains correct commit_sha'
+      it 'contains correct commit_sha' do
+        expect(subject.commit_sha).to eq(commit_sha)
+      end
 
-      xit 'contains correct runner'
+      it 'contains correct runner' do
+        expect(subject.runner).to eq(Pronto::Punchlist)
+      end
 
       it 'contains correct offense' do
         expect(subject.msg).to eq('Uncompleted punchlist item detected -' \
