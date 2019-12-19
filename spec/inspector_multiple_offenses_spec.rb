@@ -17,9 +17,7 @@ describe Pronto::Punchlist::PatchInspector do
   let(:patch) { double('patch') }
   let(:filename) { double('filename') }
   before :each do
-    allow(patch).to receive(:new_file_full_path) do
-      filename
-    end
+    allow(patch).to receive(:new_file_full_path) { filename }
   end
 
   describe '#inspect' do
@@ -32,7 +30,6 @@ describe Pronto::Punchlist::PatchInspector do
     end
 
     let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
-    let(:commit_sha) { instance_double(String, 'commit_sha') }
 
     context 'two offenses in file' do
       let(:offense_1) { double('offense_1') }
