@@ -29,42 +29,71 @@ describe Pronto::Punchlist::PatchInspector do
       expect(punchlist).to receive(:inspect_filename).with(filename) do
         offenses
       end
-      allow(patch).to receive(:added_lines) do
-        [
-          start_of_change_line_obj,
-          middle_of_change_line_obj,
-          end_of_change_line_obj,
-        ]
-      end
-      allow(start_of_change_line_obj).to receive(:new_lineno) do
-        start_of_change_line
-      end
-      allow(middle_of_change_line_obj).to receive(:new_lineno) do
-        middle_of_change_line
-      end
-      allow(end_of_change_line_obj).to receive(:new_lineno) do
-        end_of_change_line
-      end
     end
 
-    let(:patch) { instance_double(Pronto::Git::Patch) }
-    let(:commit_sha) { instance_double(String) }
+    let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
+    let(:commit_sha) { instance_double(String, 'commit_sha') }
 
     context 'two offenses in file' do
+      let(:offense_1) { double('offense_1') }
+      let(:offense_2) { double('offense_2') }
+      let(:message_1) { instance_double(Pronto::Message, 'message_1') }
+      let(:message_2) { instance_double(Pronto::Message, 'message_2') }
+      let(:message_creator_1) do
+        instance_double(Pronto::Punchlist::MessageCreator, 'message_creator_1')
+      end
+      let(:message_creator_2) do
+        instance_double(Pronto::Punchlist::MessageCreator, 'message_creator_2')
+      end
+      let(:offenses) { [offense_1, offense_2] }
+
+      before :each do
+        expect(message_creator_class).to receive(:new).with(offense_1) do
+          message_creator_1
+        end
+        expect(message_creator_class).to receive(:new).with(offense_2) do
+          message_creator_2
+        end
+        expect(message_creator_1).to receive(:inspect_patch).with(patch) do
+          offense_1_results
+        end
+        expect(message_creator_2).to receive(:inspect_patch).with(patch) do
+          offense_2_results
+        end
+      end
+
       context 'and both related to patch' do
-        xit 'returns both offenses'
+        let(:offense_1_results) { message_1 }
+        let(:offense_2_results) { message_2 }
+
+        it 'returns both offenses' do
+          should eq [message_1, message_2]
+        end
       end
 
       context 'and only first related to patch' do
-        xit 'returns only first'
+        let(:offense_1_results) { message_1 }
+        let(:offense_2_results) { nil }
+
+        it 'returns only first' do
+          should eq [message_1]
+        end
       end
 
       context 'and only second related to patch' do
-        xit 'returns only second'
+        let(:offense_1_results) { nil }
+        let(:offense_2_results) { message_2 }
+
+        it 'returns only second' do
+          should eq [message_2]
+        end
       end
 
       context 'and both unrelated to patch' do
-        xit 'returns nothing' do
+        let(:offense_1_results) { nil }
+        let(:offense_2_results) { nil }
+
+        it 'returns nothing' do
           should eq []
         end
       end
