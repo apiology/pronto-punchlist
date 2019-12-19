@@ -8,10 +8,10 @@ describe Pronto::Punchlist::PatchInspector do
   let(:inspector) do
     Pronto::Punchlist::PatchInspector
       .new(punchlist: punchlist,
-           message_creator_class: message_creator_class)
+           offense_matcher_class: offense_matcher_class)
   end
-  let(:message_creator_class) do
-    class_double(Pronto::Punchlist::MessageCreator)
+  let(:offense_matcher_class) do
+    class_double(Pronto::Punchlist::OffenseMatcher)
   end
   let(:punchlist) { double('punchlist') }
   let(:patch) { double('patch') }
@@ -36,25 +36,25 @@ describe Pronto::Punchlist::PatchInspector do
       let(:offense_2) { double('offense_2') }
       let(:message_1) { instance_double(Pronto::Message, 'message_1') }
       let(:message_2) { instance_double(Pronto::Message, 'message_2') }
-      let(:message_creator_1) do
-        instance_double(Pronto::Punchlist::MessageCreator, 'message_creator_1')
+      let(:offense_matcher_1) do
+        instance_double(Pronto::Punchlist::OffenseMatcher, 'offense_matcher_1')
       end
-      let(:message_creator_2) do
-        instance_double(Pronto::Punchlist::MessageCreator, 'message_creator_2')
+      let(:offense_matcher_2) do
+        instance_double(Pronto::Punchlist::OffenseMatcher, 'offense_matcher_2')
       end
       let(:offenses) { [offense_1, offense_2] }
 
       before :each do
-        expect(message_creator_class).to receive(:new).with(offense_1) do
-          message_creator_1
+        expect(offense_matcher_class).to receive(:new).with(offense_1) do
+          offense_matcher_1
         end
-        expect(message_creator_class).to receive(:new).with(offense_2) do
-          message_creator_2
+        expect(offense_matcher_class).to receive(:new).with(offense_2) do
+          offense_matcher_2
         end
-        expect(message_creator_1).to receive(:inspect_patch).with(patch) do
+        expect(offense_matcher_1).to receive(:inspect_patch).with(patch) do
           offense_1_results
         end
-        expect(message_creator_2).to receive(:inspect_patch).with(patch) do
+        expect(offense_matcher_2).to receive(:inspect_patch).with(patch) do
           offense_2_results
         end
       end

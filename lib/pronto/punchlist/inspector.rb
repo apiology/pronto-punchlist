@@ -2,15 +2,22 @@ require 'pronto'
 
 module Pronto
   class Punchlist < Runner
-    # TODO: Is this really a hunk inspector?  an offense inspector?
-    # offense patch comparer and message creator?
     class MessageCreator
       MESSAGE = 'Uncompleted punchlist item detected -' \
                 'consider resolving or moving this to ' \
                 'your issue tracker'.freeze
 
+      def create(path, line)
+        Message.new(path, line, :warning, MESSAGE, nil, Pronto::Punchlist)
+      end
+    end
+
+    # TODO: Is this really a hunk inspector?  an offense inspector?
+    # offense patch comparer and message creator?
+    class OffenseMatcher
       def initialize(offense)
         @offense = offense
+        @message_creator = MessageCreator.new
       end
 
       def inspect_patch(patch)
@@ -24,15 +31,15 @@ module Pronto
       def inspect_line(path, line)
         return nil unless line.new_lineno == @offense.line
 
-        Message.new(path, line, :warning, MESSAGE, nil, Pronto::Punchlist)
+        @message_creator.create(path, line)
       end
     end
 
     class PatchInspector
       def initialize(punchlist:,
-                     message_creator_class: MessageCreator)
+                     offense_matcher_class: OffenseMatcher)
         @punchlist = punchlist
-        @message_creator_class = message_creator_class
+        @offense_matcher_class = offense_matcher_class
       end
 
       def inspect_patch(patch)
@@ -42,8 +49,8 @@ module Pronto
 
         messages = []
         offenses.each do |offense|
-          message_creator = @message_creator_class.new(offense)
-          message = message_creator.inspect_patch(patch)
+          offense_matcher = @offense_matcher_class.new(offense)
+          message = offense_matcher.inspect_patch(patch)
           messages << message unless message.nil?
         end
         messages

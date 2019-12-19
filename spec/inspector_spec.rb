@@ -8,10 +8,10 @@ describe Pronto::Punchlist::PatchInspector do
   let(:inspector) do
     Pronto::Punchlist::PatchInspector
       .new(punchlist: punchlist,
-           message_creator_class: message_creator_class)
+           offense_matcher_class: offense_matcher_class)
   end
-  let(:message_creator_class) do
-    class_double(Pronto::Punchlist::MessageCreator)
+  let(:offense_matcher_class) do
+    class_double(Pronto::Punchlist::OffenseMatcher)
   end
   let(:punchlist) { double('punchlist') }
   let(:patch) { double('patch') }
@@ -43,12 +43,14 @@ describe Pronto::Punchlist::PatchInspector do
     context 'one offense in file' do
       let(:offense) { double('offense') }
       let(:offenses) { [offense] }
-      let(:message_creator) { instance_double(Pronto::Punchlist::MessageCreator) }
+      let(:offense_matcher) do
+        instance_double(Pronto::Punchlist::OffenseMatcher)
+      end
       before :each do
-        expect(message_creator_class).to receive(:new).with(offense) do
-          message_creator
+        expect(offense_matcher_class).to receive(:new).with(offense) do
+          offense_matcher
         end
-        expect(message_creator).to receive(:inspect_patch).with(patch) do
+        expect(offense_matcher).to receive(:inspect_patch).with(patch) do
           message
         end
       end
