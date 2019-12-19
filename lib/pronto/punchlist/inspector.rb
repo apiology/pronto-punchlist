@@ -2,6 +2,8 @@ require 'pronto'
 
 module Pronto
   class Punchlist < Runner
+    # TODO: Is this really a hunk inspector?  an offense inspector?
+    # offense patch comparer and message creator?
     class MessageCreator
       MESSAGE = 'Uncompleted punchlist item detected -' \
                 'consider resolving or moving this to ' \
