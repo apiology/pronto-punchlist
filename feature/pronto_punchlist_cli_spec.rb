@@ -64,7 +64,6 @@ describe Pronto::Punchlist do
       out, exit_code = Open3.capture2e(env, 'bundle exec pronto run -r punchlist -f text')
       expect(out).to eq(expected_output)
       expect(exit_code).to eq(1)
-      # TODO: Finish out knowledge from https://kevinjalbert.com/create-your-own-pronto-runner/
     end
   end
 end
