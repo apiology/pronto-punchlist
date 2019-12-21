@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'pronto/punchlist/version'
-require 'pronto/punchlist/inspector'
+require 'pronto/punchlist/patch_inspector'
 require 'pronto/punchlist/validator'
 require 'pronto'
 

@@ -2,7 +2,7 @@
 
 require 'pronto'
 require_relative 'spec_helper'
-require 'pronto/punchlist/inspector'
+require 'pronto/punchlist/patch_inspector'
 
 describe Pronto::Punchlist::PatchInspector do
   let(:inspector) do
