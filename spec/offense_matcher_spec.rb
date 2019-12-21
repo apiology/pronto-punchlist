@@ -5,14 +5,24 @@ require_relative 'spec_helper'
 require 'pronto/punchlist/inspector'
 
 describe Pronto::Punchlist::OffenseMatcher do
+  let(:message_creator) do
+    instance_double(Pronto::Punchlist::MessageCreator, 'message_creator')
+  end
   let(:offense_matcher) do
-    Pronto::Punchlist::OffenseMatcher.new(offense)
+    Pronto::Punchlist::OffenseMatcher.new(offense,
+                                          message_creator: message_creator)
   end
 
   describe '#inspect_patch' do
     subject { offense_matcher.inspect_patch(patch) }
 
+    let(:message) { double('message') }
     before :each do
+      allow(message_creator).to receive(:create).with(new_file_full_path,
+                                                      patch_line_obj) do
+        message
+      end
+
       allow(patch).to receive(:added_lines) do
         [
           start_of_change_line_obj,
@@ -48,6 +58,9 @@ describe Pronto::Punchlist::OffenseMatcher do
     let(:end_of_change_line_obj) do
       instance_double(Pronto::Git::Line, commit_sha: commit_sha)
     end
+    let(:after_end_of_change_line_obj) do
+      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+    end
 
     let(:offense) { double('offense') }
     let(:offenses) { [offense] }
@@ -58,44 +71,16 @@ describe Pronto::Punchlist::OffenseMatcher do
 
     context 'and related to patch' do
       let(:offense_line) { start_of_change_line }
+      let(:patch_line_obj) { start_of_change_line_obj }
 
-      it 'returns offense' do
-        expect(subject.line).to eq start_of_change_line_obj
-      end
-
-      it 'returns Message subclass' do
-        should be_instance_of(Pronto::Message)
-      end
-
-      it 'contains correct line' do
-        expect(subject.line.new_lineno).to eq(offense_line)
-      end
-
-      it 'contains correct level' do
-        expect(subject.level).to eq(:warning)
-      end
-
-      it 'contains correct path' do
-        expect(subject.path).to eq(new_file_full_path)
-      end
-
-      it 'contains correct commit_sha' do
-        expect(subject.commit_sha).to eq(commit_sha)
-      end
-
-      it 'contains correct runner' do
-        expect(subject.runner).to eq(Pronto::Punchlist)
-      end
-
-      it 'contains correct offense' do
-        expect(subject.msg).to eq('Uncompleted punchlist item detected -' \
-                                  'consider resolving or moving this to ' \
-                                  'your issue tracker')
+      it 'returns message' do
+        expect(subject).to eq message
       end
     end
 
     context 'and unrelated to patch' do
       let(:offense_line) { after_end_of_change_line }
+      let(:patch_line_obj) { after_end_of_change_line_obj }
 
       it 'returns nothing' do
         should eq nil

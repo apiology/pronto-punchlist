@@ -2,6 +2,7 @@ require 'pronto'
 
 module Pronto
   class Punchlist < Runner
+    # TODO: Move into separate file
     class MessageCreator
       MESSAGE = 'Uncompleted punchlist item detected -' \
                 'consider resolving or moving this to ' \
@@ -11,13 +12,15 @@ module Pronto
         Message.new(path, line, :warning, MESSAGE, nil, Pronto::Punchlist)
       end
     end
+    # TODO: Move into separate file
 
     # TODO: Is this really a hunk inspector?  an offense inspector?
     # offense patch comparer and message creator?
     class OffenseMatcher
-      def initialize(offense)
+      def initialize(offense,
+                     message_creator: MessageCreator.new)
         @offense = offense
-        @message_creator = MessageCreator.new
+        @message_creator = message_creator
       end
 
       def inspect_patch(patch)
