@@ -2,7 +2,7 @@
 
 require 'pronto'
 require_relative 'spec_helper'
-require 'pronto/punchlist/inspector'
+require 'pronto/punchlist/message_creator'
 
 describe Pronto::Punchlist::MessageCreator do
   let(:message_creator) do
