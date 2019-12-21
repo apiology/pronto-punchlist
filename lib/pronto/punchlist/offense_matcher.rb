@@ -2,8 +2,6 @@ require 'pronto'
 
 module Pronto
   class Punchlist < Runner
-    # TODO: Is this really a hunk inspector?  an offense inspector?
-    # offense patch comparer and message creator?
     class OffenseMatcher
       def initialize(offense,
                      message_creator: MessageCreator.new)
