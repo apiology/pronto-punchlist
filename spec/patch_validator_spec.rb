@@ -2,7 +2,7 @@
 
 require 'pronto'
 require_relative 'spec_helper'
-require 'pronto/punchlist/validator'
+require 'pronto/punchlist/patch_validator'
 
 describe Pronto::Punchlist::PatchValidator do
   let(:validator) do

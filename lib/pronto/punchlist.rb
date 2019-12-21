@@ -2,7 +2,7 @@
 
 require 'pronto/punchlist/version'
 require 'pronto/punchlist/patch_inspector'
-require 'pronto/punchlist/validator'
+require 'pronto/punchlist/patch_validator'
 require 'pronto'
 
 module Pronto
