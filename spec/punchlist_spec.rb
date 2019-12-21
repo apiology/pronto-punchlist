@@ -60,7 +60,6 @@ describe Pronto::Punchlist do
         end
       end
     end
-    # TODO: Add enough tests to recreate run method in https://kevinjalbert.com/create-your-own-pronto-runner/
   end
 
   describe '#inspect_patch' do
