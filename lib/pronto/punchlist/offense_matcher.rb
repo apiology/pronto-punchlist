@@ -19,6 +19,7 @@ module Pronto
       end
 
       def inspect_line(path, line)
+        # TODO: What if path differs - why are we taking in path if we know it otherwise?
         return nil unless line.new_lineno == @offense.line_num
 
         @message_creator.create(path, line)
