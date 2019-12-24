@@ -9,8 +9,12 @@ require 'pronto'
 module Pronto
   class Punchlist < Runner
     def initialize(patches, commit = nil,
-                   punchlist_driver: PunchlistDriver.new,
-                   patch_inspector: PatchInspector.new(punchlist_driver: punchlist_driver),
+                   regexp_string: ::Punchlist::Config
+                     .default_punchlist_line_regexp_string,
+                   punchlist_regexp: Regexp.new(regexp_string),
+                   punchlist_driver: PunchlistDriver.new(punchlist_regexp),
+                   patch_inspector: PatchInspector.new(punchlist_driver:
+                                                         punchlist_driver),
                    patch_validator: PatchValidator.new)
       super(patches, commit)
       @patch_inspector = patch_inspector
