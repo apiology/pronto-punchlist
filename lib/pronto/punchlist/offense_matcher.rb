@@ -18,7 +18,7 @@ module Pronto
       end
 
       def inspect_line(path, line)
-        return nil unless line.new_lineno == @offense.line
+        return nil unless line.new_lineno == @offense.line_num
 
         @message_creator.create(path, line)
       end

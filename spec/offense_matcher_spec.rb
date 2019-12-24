@@ -65,7 +65,7 @@ describe Pronto::Punchlist::OffenseMatcher do
     let(:offense) { double('offense') }
     let(:offenses) { [offense] }
     before :each do
-      allow(offense).to receive(:line) { offense_line }
+      allow(offense).to receive(:line_num) { offense_line }
       allow(patch).to receive(:new_file_full_path) { new_file_full_path }
     end
 
