@@ -2,17 +2,17 @@
 
 require 'pronto/punchlist/version'
 require 'pronto/punchlist/patch_inspector'
+require 'pronto/punchlist/driver'
 require 'pronto/punchlist/patch_validator'
 require 'pronto'
 
 module Pronto
   class Punchlist < Runner
     def initialize(patches, commit = nil,
-                   punchlist: nil,
-                   patch_inspector: PatchInspector.new(punchlist: punchlist),
+                   punchlist_driver: PunchlistDriver.new,
+                   patch_inspector: PatchInspector.new(punchlist_driver: punchlist_driver),
                    patch_validator: PatchValidator.new)
       super(patches, commit)
-      @punchlist = punchlist
       @patch_inspector = patch_inspector
       @patch_validator = patch_validator
     end

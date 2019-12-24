@@ -37,6 +37,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'pronto'
+  # Punchlist internals were refactored in version 1.3.0 and a
+  # reasonable API exposed:
+  spec.add_dependency 'punchlist', '>= 1.3.0'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'quality'

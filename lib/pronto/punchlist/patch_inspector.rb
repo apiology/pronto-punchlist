@@ -1,18 +1,19 @@
 require 'pronto'
+require_relative 'offense_matcher'
 
 module Pronto
   class Punchlist < Runner
     class PatchInspector
-      def initialize(punchlist:,
+      def initialize(punchlist_driver:,
                      offense_matcher_class: OffenseMatcher)
-        @punchlist = punchlist
+        @punchlist_driver = punchlist_driver
         @offense_matcher_class = offense_matcher_class
       end
 
       def inspect_patch(patch)
         path = patch.new_file_full_path
 
-        offenses = @punchlist.inspect_filename(path)
+        offenses = @punchlist_driver.inspect_filename(path)
 
         messages = []
         offenses.each do |offense|

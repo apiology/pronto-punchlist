@@ -7,13 +7,16 @@ require 'pronto/punchlist/patch_inspector'
 describe Pronto::Punchlist::PatchInspector do
   let(:inspector) do
     Pronto::Punchlist::PatchInspector
-      .new(punchlist: punchlist,
+      .new(punchlist_driver: punchlist_driver,
            offense_matcher_class: offense_matcher_class)
   end
   let(:offense_matcher_class) do
     class_double(Pronto::Punchlist::OffenseMatcher)
   end
-  let(:punchlist) { double('punchlist') }
+  let(:punchlist_driver) do
+    instance_double(Pronto::Punchlist::PunchlistDriver,
+                    'punchlist_driver')
+  end
   let(:patch) { double('patch') }
   let(:filename) { double('filename') }
   before :each do
@@ -24,7 +27,7 @@ describe Pronto::Punchlist::PatchInspector do
     subject { inspector.inspect_patch(patch) }
 
     before :each do
-      expect(punchlist).to receive(:inspect_filename).with(filename) do
+      expect(punchlist_driver).to receive(:inspect_filename).with(filename) do
         offenses
       end
     end

@@ -10,12 +10,15 @@ describe Pronto::Punchlist do
   let(:patch_validator) { instance_double(Pronto::Punchlist::PatchValidator) }
   let(:pronto_punchlist) do
     Pronto::Punchlist.new(patches, commit,
-                          punchlist: punchlist,
+                          punchlist_driver: punchlist_driver,
                           patch_inspector: patch_inspector,
                           patch_validator: patch_validator)
   end
 
-  let(:punchlist) { double('punchlist') }
+  let(:punchlist_driver) do
+    instance_double(Pronto::Punchlist::PunchlistDriver,
+                    'punchlist_driver')
+  end
   let(:patch) { double('patch') }
   let(:filename) { double('filename') }
 
