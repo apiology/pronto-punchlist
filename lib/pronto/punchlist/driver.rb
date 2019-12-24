@@ -4,13 +4,14 @@ require 'punchlist'
 module Pronto
   class Punchlist < Runner
     class PunchlistDriver
-      def initialize(punchlist: ::Punchlist::Punchlist.new([]))
-        @punchlist = punchlist
+      def initialize(punchlist_line_regexp,
+                     inspector_class: ::Punchlist::Inspector)
+        @punchlist_line_regexp = punchlist_line_regexp
+        @inspector_class = inspector_class
       end
 
       def inspect_filename(path)
-        @punchlist.look_for_punchlist_items(path)
-        nil
+        @inspector_class.new(@punchlist_line_regexp, path).run
       end
     end
   end

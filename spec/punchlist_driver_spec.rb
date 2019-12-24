@@ -6,92 +6,38 @@ require 'pronto/punchlist/driver'
 require 'punchlist'
 
 describe Pronto::Punchlist::PunchlistDriver do
-  let(:punchlist) { instance_double(Punchlist::Punchlist, 'punchlist') }
+  let(:inspector_class) do
+    class_double(Punchlist::Inspector, 'inspector_class')
+  end
   let(:punchlist_driver) do
-    Pronto::Punchlist::PunchlistDriver.new(punchlist: punchlist)
+    Pronto::Punchlist::PunchlistDriver.new(punchlist_line_regexp,
+                                           inspector_class: inspector_class)
+  end
+  let(:punchlist_line_regexp) do
+    instance_double(Regexp, 'punchlist_line_regexp')
   end
 
   describe '#inspect_filename' do
-    let(:path) { instance_double(String, 'path') }
-  #   let(:commit_sha) { instance_double(String, 'commit_sha') }
-  #   let(:line) do
-  #     instance_double(Pronto::Git::Line, 'line', commit_sha: commit_sha)
-    #   end
-
     before :each do
-      expect(punchlist).to receive(:look_for_punchlist_items).with(path) do
-        punchlist_response
+      allow(inspector_class).to receive(:new).with(punchlist_line_regexp,
+                                                   path) do
+        inspector
+      end
+      allow(inspector).to receive(:run).with no_args do
+        inspector_response
       end
     end
+    let(:inspector) { instance_double(Punchlist::Inspector, 'inspector') }
+    let(:path) { instance_double(String, 'path') }
+    let(:inspector_response) { instance_double(Array, 'inspector_response') }
 
     subject { punchlist_driver.inspect_filename(path) }
 
-    context 'with no errors' do
-      let(:punchlist_response) do
-        []
-      end
-
-      it 'does not blow up' do
-        expect { subject }.to_not raise_error
-      end
-
-      xit 'returns correct response'
+    it 'delegates to punchlist inspector class' do
+      expect(subject).to eq inspector_response
+      expect(inspector_class).to have_received(:new)
+        .with(punchlist_line_regexp, path)
+      expect(inspector).to have_received(:run)
     end
-
-    context 'with one error' do
-      let(:punchlist_response) do
-        []
-      end
-
-      it 'does not blow up' do
-        expect { subject }.to_not raise_error
-      end
-
-      xit 'returns correct response'
-    end
-
-    context 'with two errors' do
-      let(:punchlist_response) do
-        []
-      end
-
-      it 'does not blow up' do
-        expect { subject }.to_not raise_error
-      end
-
-      xit 'returns correct response'
-    end
-
-    # TODO: Release new version of punchlist - after making sure circleci shows error
-
-  #   it 'returns Message subclass' do
-  #     should be_instance_of(Pronto::Message)
-  #   end
-
-  #   it 'contains correct line' do
-  #     expect(subject.line).to eq(line)
-  #   end
-
-  #   it 'contains correct level' do
-  #     expect(subject.level).to eq(:warning)
-  #   end
-
-  #   it 'contains correct path' do
-  #     expect(subject.path).to eq(path)
-  #   end
-
-  #   it 'contains correct commit_sha' do
-  #     expect(subject.commit_sha).to eq(commit_sha)
-  #   end
-
-  #   it 'contains correct runner' do
-  #     expect(subject.runner).to eq(Pronto::Punchlist)
-  #   end
-
-  #   it 'contains correct offense' do
-  #     expect(subject.msg).to eq('Uncompleted punchlist item detected -' \
-  #                               'consider resolving or moving this to ' \
-  #                               'your issue tracker')
-  #   end
   end
 end
