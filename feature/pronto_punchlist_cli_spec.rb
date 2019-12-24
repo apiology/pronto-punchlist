@@ -4,8 +4,6 @@ require_relative 'feature_helper'
 require 'pronto/punchlist'
 require 'tmpdir'
 
-# http://www.puzzlenode.com/puzzles/13-chess-validator
-
 describe Pronto::Punchlist do
   it 'includes pronto as a dependency' do
     expected_output = <<~OUTPUT
