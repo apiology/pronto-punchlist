@@ -2,6 +2,7 @@
 
 require_relative 'feature_helper'
 require 'pronto/punchlist'
+require 'tmpdir'
 
 # http://www.puzzlenode.com/puzzles/13-chess-validator
 
@@ -40,30 +41,59 @@ describe Pronto::Punchlist do
     expect(exit_code).to eq(0)
   end
 
-  context 'with a dummy repo' do
-    xit 'runs and finds no files' do
-      expected_output = ''
-      env = {
-        # Avoid spurious deprecation warnings in things which are out of
-        # our control
-        'RUBYOPT' => '-W0',
-      }
-      out, exit_code = Open3.capture2e(env, 'bundle exec pronto run -r punchlist -f text')
-      expect(out).to eq(expected_output)
-      expect(exit_code).to eq(0)
+  context 'in a repo' do
+    around do |example|
+      Dir.mktmpdir do |dir|
+        Dir.chdir(dir) do
+          system('git init')
+          example_files.each do |filename, contents|
+            File.write(filename, contents)
+          end
+          system('git add .')
+          system('git commit -m "First commit"')
+          example.run
+        end
+      end
     end
 
-    xit 'runs and finds files to run' do
-      # TODO: Get a test repo set up
-      expected_output = '123'
-      env = {
-        # Avoid spurious deprecation warnings in things which are out of
-        # our control
-        'RUBYOPT' => '-W0',
-      }
-      out, exit_code = Open3.capture2e(env, 'bundle exec pronto run -r punchlist -f text')
-      expect(out).to eq(expected_output)
-      expect(exit_code).to eq(1)
+    context 'with a boring dummy repo' do
+      let(:example_files) do
+        {
+          'boring.rb' => 'puts "hello world"',
+        }
+      end
+
+      it 'runs and finds no files' do
+        expected_output = ''
+        env = {
+          # Avoid spurious deprecation warnings in things which are out of
+          # our control
+          'RUBYOPT' => '-W0',
+        }
+        out, exit_code = Open3.capture2e(env, 'bundle exec pronto run -r punchlist -f text')
+        expect(out).to eq(expected_output)
+        expect(exit_code).to eq(0)
+      end
+    end
+
+    context 'with a more interesting dummy repo' do
+      let(:example_files) do
+        {
+          'more_interesting.rb' => "puts 'hello world'\n# TODO: Write more code",
+        }
+      end
+
+      it 'runs and finds files to run' do
+        expected_output = '123'
+        env = {
+          # Avoid spurious deprecation warnings in things which are out of
+          # our control
+          'RUBYOPT' => '-W0',
+        }
+        out, exit_code = Open3.capture2e(env, 'bundle exec pronto run -r punchlist -f text')
+        expect(out).to eq(expected_output)
+        expect(exit_code).to eq(1)
+      end
     end
   end
 end
