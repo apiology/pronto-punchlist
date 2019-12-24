@@ -46,11 +46,13 @@ describe Pronto::Punchlist do
       Dir.mktmpdir do |dir|
         Dir.chdir(dir) do
           system('git init')
+          File.write('README.md', 'Initial commit contents')
+          system('git add .')
+          system('git commit -m "First commit"')
           example_files.each do |filename, contents|
             File.write(filename, contents)
           end
           system('git add .')
-          system('git commit -m "First commit"')
           example.run
         end
       end
@@ -70,7 +72,7 @@ describe Pronto::Punchlist do
           # our control
           'RUBYOPT' => '-W0',
         }
-        out, exit_code = Open3.capture2e(env, 'bundle exec pronto run -r punchlist -f text')
+        out, exit_code = Open3.capture2e(env, 'bundle exec pronto run --staged -r punchlist -f text')
         expect(out).to eq(expected_output)
         expect(exit_code).to eq(0)
       end
@@ -90,7 +92,7 @@ describe Pronto::Punchlist do
           # our control
           'RUBYOPT' => '-W0',
         }
-        out, exit_code = Open3.capture2e(env, 'bundle exec pronto run -r punchlist -f text')
+        out, exit_code = Open3.capture2e(env, 'bundle exec pronto run --staged -r punchlist -f text')
         expect(out).to eq(expected_output)
         expect(exit_code).to eq(1)
       end
