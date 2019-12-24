@@ -5,35 +5,38 @@ require 'pronto/punchlist'
 require 'tmpdir'
 
 describe Pronto::Punchlist do
-  it 'includes pronto as a dependency' do
-    expected_output = <<~OUTPUT
-      Commands:
-        pronto help [COMMAND]   # Describe available commands or one specific command
-        pronto list             # Lists pronto runners that are available to be used
-        pronto run [PATH]       # Run Pronto
-        pronto verbose-version  # Display verbose version
-        pronto version          # Display version
-
-    OUTPUT
-    env = {
+  let(:env) do
+    {
       # Avoid spurious deprecation warnings in things which are out of
       # our control
       'RUBYOPT' => '-W0',
     }
-    out, exit_code = Open3.capture2e(env, 'bundle exec pronto')
-    expect(out).to eq(expected_output)
-    expect(exit_code).to eq(0)
+  end
+
+  context 'when run without arguments' do
+    let(:expected_output) do
+      <<~OUTPUT
+        Commands:
+          pronto help [COMMAND]   # Describe available commands or one specific command
+          pronto list             # Lists pronto runners that are available to be used
+          pronto run [PATH]       # Run Pronto
+          pronto verbose-version  # Display verbose version
+          pronto version          # Display version
+
+      OUTPUT
+    end
+
+    it 'includes pronto as a dependency' do
+      out, exit_code = Open3.capture2e(env, 'bundle exec pronto')
+      expect(out).to eq(expected_output)
+      expect(exit_code).to eq(0)
+    end
   end
 
   it 'lists this as a runner' do
     expected_output = <<~OUTPUT
       punchlist
     OUTPUT
-    env = {
-      # Avoid spurious deprecation warnings in things which are out of
-      # our control
-      'RUBYOPT' => '-W0',
-    }
     out, exit_code = Open3.capture2e(env, 'bundle exec pronto list')
     expect(out).to eq(expected_output)
     expect(exit_code).to eq(0)
@@ -65,11 +68,6 @@ describe Pronto::Punchlist do
 
       it 'runs and finds no files' do
         expected_output = ''
-        env = {
-          # Avoid spurious deprecation warnings in things which are out of
-          # our control
-          'RUBYOPT' => '-W0',
-        }
         out, exit_code = Open3.capture2e(env, 'bundle exec pronto run --staged -r punchlist -f text')
         expect(out).to eq(expected_output)
         expect(exit_code).to eq(0)
@@ -85,11 +83,6 @@ describe Pronto::Punchlist do
 
       it 'runs and finds files to run' do
         expected_output = "more_interesting.rb:2 W: Uncompleted punchlist item detected -consider resolving or moving this to your issue tracker\n"
-        env = {
-          # Avoid spurious deprecation warnings in things which are out of
-          # our control
-          'RUBYOPT' => '-W0',
-        }
         out, exit_code = Open3.capture2e(env, 'bundle exec pronto run --staged -r punchlist -f text')
         expect(out).to end_with(expected_output)
         expect(exit_code).to eq(0)
