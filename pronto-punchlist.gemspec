@@ -42,7 +42,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'punchlist', '>= 1.3.0'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
-  spec.add_development_dependency 'quality'
+  spec.add_development_dependency 'quality', '~> 36'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'simplecov'
