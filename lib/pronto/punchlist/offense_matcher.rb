@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pronto'
 require_relative 'message_creator'
 

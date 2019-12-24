@@ -49,7 +49,7 @@ describe Pronto::Punchlist::PatchValidator do
         let(:file_is_binary) { true }
 
         before :each do
-          # TODO - do something like this: https://github.com/apiology/quality/blob/master/lib/quality/linguist_source_file_globber.rb - should I export to its own repo?  Maybe import for now and just test that this calls into that interface?
+          # TODO: - do something like this: https://github.com/apiology/quality/blob/master/lib/quality/linguist_source_file_globber.rb - should I export to its own repo?  Maybe import for now and just test that this calls into that interface?
           allow(patch).to receive(:patch) { '/foo/bar/baz.bin' }
         end
 

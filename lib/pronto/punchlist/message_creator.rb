@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pronto'
 
 module Pronto
@@ -5,7 +7,7 @@ module Pronto
     class MessageCreator
       MESSAGE = 'Uncompleted punchlist item detected -' \
                 'consider resolving or moving this to ' \
-                'your issue tracker'.freeze
+                'your issue tracker'
 
       def create(path, line)
         Message.new(path, line, :warning, MESSAGE, nil, Pronto::Punchlist)
