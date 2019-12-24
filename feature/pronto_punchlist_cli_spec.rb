@@ -84,15 +84,15 @@ describe Pronto::Punchlist do
       end
 
       it 'runs and finds files to run' do
-        expected_output = '123'
+        expected_output = "more_interesting.rb:2 W: Uncompleted punchlist item detected -consider resolving or moving this to your issue tracker\n"
         env = {
           # Avoid spurious deprecation warnings in things which are out of
           # our control
           'RUBYOPT' => '-W0',
         }
         out, exit_code = Open3.capture2e(env, 'bundle exec pronto run --staged -r punchlist -f text')
-        expect(out).to eq(expected_output)
-        expect(exit_code).to eq(1)
+        expect(out).to end_with(expected_output)
+        expect(exit_code).to eq(0)
       end
     end
   end
