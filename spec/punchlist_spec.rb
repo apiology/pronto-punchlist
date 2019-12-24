@@ -19,13 +19,13 @@ describe Pronto::Punchlist do
     instance_double(Pronto::Punchlist::PunchlistDriver,
                     'punchlist_driver')
   end
-  let(:patch) { double('patch') }
+  let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
   let(:filename) { double('filename') }
 
   describe '#new' do
     subject { pronto_punchlist }
 
-    let(:patches) { double('patches') }
+    let(:patches) { instance_double(Array, 'patches') }
 
     it 'initializes' do
       should_not eq(nil)
@@ -39,28 +39,48 @@ describe Pronto::Punchlist do
   describe '#run' do
     subject { pronto_punchlist.run }
 
-    context 'with no patches' do
-      let(:patches) { nil }
-
-      it 'returns' do
-        should eq([])
-      end
-    end
-
     context 'with a single patch which returns issues' do
       let(:patches) { [patch] }
-      let(:messages) { double('messages') }
+      let(:message_a) { instance_double(Pronto::Message, 'message_a') }
+      let(:message_b) { instance_double(Pronto::Message, 'message_b') }
+      let(:messages) { [message_a, message_b] }
 
       before :each do
-        expect(patch_inspector).to receive(:inspect_patch).with(patch) do
+        allow(patch_inspector).to receive(:inspect_patch).with(patch) do
           messages
         end
       end
 
       context 'which is valid' do
         it 'passes back output of inspector' do
-          should be messages
+          expect(subject).to eq(messages)
+          expect(patch_inspector).to have_received(:inspect_patch).with(patch)
         end
+      end
+    end
+
+    context 'with two patches, the second of which returns two issues' do
+      let(:patch_1) { instance_double(Pronto::Git::Patch, 'patch_1') }
+      let(:patch_2) { instance_double(Pronto::Git::Patch, 'patch_2') }
+      let(:patches) { [patch_1, patch_2] }
+      let(:message_a) { instance_double(Pronto::Message, 'message_a') }
+      let(:message_b) { instance_double(Pronto::Message, 'message_b') }
+      let(:messages_1) { [] }
+      let(:messages_2) { [message_a, message_b] }
+
+      before do
+        allow(patch_inspector).to receive(:inspect_patch).with(patch_1) do
+          messages_1
+        end
+        allow(patch_inspector).to receive(:inspect_patch).with(patch_2) do
+          messages_2
+        end
+      end
+
+      it 'returns messages passed back by inspector' do
+        expect(subject).to eq([message_a, message_b])
+        expect(patch_inspector).to have_received(:inspect_patch).with(patch_1)
+        expect(patch_inspector).to have_received(:inspect_patch).with(patch_2)
       end
     end
   end
@@ -72,7 +92,7 @@ describe Pronto::Punchlist do
     let(:patches) { double('patches') }
 
     before :each do
-      expect(patch_inspector).to receive(:inspect_patch).with(patch) { messages }
+      allow(patch_inspector).to receive(:inspect_patch).with(patch) { messages }
     end
 
     it 'calls into @inspector' do
@@ -88,7 +108,7 @@ describe Pronto::Punchlist do
     let(:validator_return) { double('validator_return') }
 
     before :each do
-      expect(patch_validator).to receive(:valid_patch?).with(patch) do
+      allow(patch_validator).to receive(:valid_patch?).with(patch) do
         validator_return
       end
     end

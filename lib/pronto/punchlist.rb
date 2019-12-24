@@ -23,9 +23,7 @@ module Pronto
 
     class Error < StandardError; end
     def run
-      return [] unless @patches
-
-      self.inspect_patch(@patches.first)
+      @patches.flat_map { |patch| inspect_patch(patch) }
     end
 
     def valid_patch?(patch)
