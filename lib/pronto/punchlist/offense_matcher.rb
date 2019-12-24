@@ -1,10 +1,11 @@
 require 'pronto'
+require_relative 'message_creator'
 
 module Pronto
   class Punchlist < Runner
     class OffenseMatcher
       def initialize(offense,
-                     message_creator: MessageCreator.new)
+                     message_creator: ::Pronto::Punchlist::MessageCreator.new)
         @offense = offense
         @message_creator = message_creator
       end
