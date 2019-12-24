@@ -5,3 +5,6 @@ all:
 
 spec:
 	@bundle exec rake spec
+
+rubocop:
+	@bundle exec rake rubocop
