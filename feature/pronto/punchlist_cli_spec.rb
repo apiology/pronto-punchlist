@@ -13,7 +13,7 @@ describe Pronto::Punchlist do
     }
   end
 
-  context 'when run without arguments' do
+  describe 'bundle exec pronto' do
     let(:expected_output) do
       <<~OUTPUT
         Commands:
@@ -33,16 +33,21 @@ describe Pronto::Punchlist do
     end
   end
 
-  it 'lists this as a runner' do
-    expected_output = <<~OUTPUT
-      punchlist
-    OUTPUT
-    out, exit_code = Open3.capture2e(env, 'bundle exec pronto list')
-    expect(out).to eq(expected_output)
-    expect(exit_code).to eq(0)
+  describe 'bundle exec pronto list' do
+    let(:expected_output) do
+      <<~OUTPUT
+        punchlist
+      OUTPUT
+    end
+
+    it 'lists this as a runner' do
+      out, exit_code = Open3.capture2e(env, 'bundle exec pronto list')
+      expect(out).to eq(expected_output)
+      expect(exit_code).to eq(0)
+    end
   end
 
-  context 'in a repo' do
+  context 'with a repo' do
     around do |example|
       Dir.mktmpdir do |dir|
         Dir.chdir(dir) do
@@ -59,7 +64,7 @@ describe Pronto::Punchlist do
       end
     end
 
-    context 'with a boring dummy repo' do
+    context 'with no annotation comments' do
       let(:example_files) do
         {
           'boring.rb' => 'puts "hello world"',
@@ -68,25 +73,29 @@ describe Pronto::Punchlist do
 
       it 'runs and finds no files' do
         expected_output = ''
-        out, exit_code = Open3.capture2e(env, 'bundle exec pronto run --staged -r punchlist -f text')
+        out, exit_code =
+             Open3.capture2e(env,
+                             'bundle exec pronto run --staged -r punchlist -f text')
         expect(out).to eq(expected_output)
         expect(exit_code).to eq(0)
       end
     end
 
-    context 'with a more interesting dummy repo' do
+    context 'with annotation comments' do
       let(:example_files) do
         {
-          'more_interesting.rb' => "puts 'hello world'\n# TODO: Write more code",
+          'more_interesting.rb' =>
+          "puts 'hello world'\n# TODO: Write more code",
         }
       end
 
       it 'runs and finds files to run' do
-        out, exit_code = Open3.capture2e(env, 'bundle exec pronto run --staged -r punchlist -f text')
         expected_output =\
         "more_interesting.rb:2 W: " \
         "Uncompleted punchlist item detected--consider resolving or " \
         "moving this to your issue tracker\n"
+        out, exit_code = Open3.capture2e(env,
+                                         'bundle exec pronto run --staged -r punchlist -f text')
         expect(out).to end_with(expected_output)
         expect(exit_code).to eq(0)
       end
