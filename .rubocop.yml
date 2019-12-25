@@ -40,8 +40,10 @@ Style/CommentAnnotation:
 
 # https://stackoverflow.com/questions/40934345/rubocop-25-line-block-size-and-rspec-tests
 Metrics/BlockLength:
+  # Exclude DSLs
   Exclude:
     - 'Rakefile'
+    - '*.gemspec'
     - '**/*.rake'
     - 'spec/**/*.rb'
     - 'feature/**/*.rb'
@@ -57,6 +59,13 @@ Metrics/BlockLength:
 RSpec/MultipleExpectations:
   Exclude:
     - 'feature/**/*.rb'
+
+Style/StringLiterals:
+    EnforcedStyle: single_quotes
+    SupportedStyles:
+      - single_quotes
+      - double_quotes
+    ConsistentQuotesInMultiline: true
 
 AllCops:
   TargetRubyVersion: 2.4

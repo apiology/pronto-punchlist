@@ -4,6 +4,7 @@ require 'pronto'
 
 module Pronto
   class Punchlist < Runner
+    # Creates Pronto messages
     class MessageCreator
       MESSAGE = 'Uncompleted punchlist item detected--' \
                 'consider resolving or moving this to ' \

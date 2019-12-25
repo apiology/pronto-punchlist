@@ -7,6 +7,7 @@ require 'pronto/punchlist/patch_validator'
 require 'pronto'
 
 module Pronto
+  # Performs incremental quality reporting for the punchlist gem
   class Punchlist < Runner
     def initialize(patches, commit = nil,
                    regexp_string: ::Punchlist::Config

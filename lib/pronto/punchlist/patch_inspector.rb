@@ -5,6 +5,7 @@ require_relative 'offense_matcher'
 
 module Pronto
   class Punchlist < Runner
+    # Inspects a patch and reports any relevant offenses
     class PatchInspector
       def initialize(punchlist_driver:,
                      offense_matcher_class: OffenseMatcher)

@@ -5,6 +5,7 @@ require_relative 'message_creator'
 
 module Pronto
   class Punchlist < Runner
+    # Matches up the given offense with potentially matching lines
     class OffenseMatcher
       def initialize(offense,
                      message_creator: ::Pronto::Punchlist::MessageCreator.new)
@@ -21,7 +22,8 @@ module Pronto
       end
 
       def inspect_line(path, line)
-        # TODO: What if path differs - why are we taking in path if we know it otherwise?
+        # TODO: What if path differs - why are we taking in path if we
+        # know it otherwise?
         return nil unless line.new_lineno == @offense.line_num
 
         @message_creator.create(path, line)

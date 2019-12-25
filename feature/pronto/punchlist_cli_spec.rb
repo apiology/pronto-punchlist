@@ -47,7 +47,11 @@ describe Pronto::Punchlist do
     end
   end
 
-  context 'with a repo' do
+  describe 'bundle exec pronto run --staged -r punchlist -f text' do
+    let(:pronto_command) do
+      'bundle exec pronto run --staged -r punchlist -f text'
+    end
+
     around do |example|
       Dir.mktmpdir do |dir|
         Dir.chdir(dir) do
@@ -70,12 +74,10 @@ describe Pronto::Punchlist do
           'boring.rb' => 'puts "hello world"',
         }
       end
+      let(:expected_output) { '' }
 
       it 'runs and finds no files' do
-        expected_output = ''
-        out, exit_code =
-             Open3.capture2e(env,
-                             'bundle exec pronto run --staged -r punchlist -f text')
+        out, exit_code = Open3.capture2e(env, pronto_command)
         expect(out).to eq(expected_output)
         expect(exit_code).to eq(0)
       end
@@ -89,13 +91,14 @@ describe Pronto::Punchlist do
         }
       end
 
-      it 'runs and finds files to run' do
-        expected_output =\
+      let(:expected_output) do
         "more_interesting.rb:2 W: " \
         "Uncompleted punchlist item detected--consider resolving or " \
         "moving this to your issue tracker\n"
-        out, exit_code = Open3.capture2e(env,
-                                         'bundle exec pronto run --staged -r punchlist -f text')
+      end
+
+      it 'runs and finds files to run' do
+        out, exit_code = Open3.capture2e(env, pronto_command)
         expect(out).to end_with(expected_output)
         expect(exit_code).to eq(0)
       end

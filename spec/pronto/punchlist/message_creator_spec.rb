@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'pronto'
-require_relative 'spec_helper'
+require_relative '../../spec_helper'
 require 'pronto/punchlist/message_creator'
 
 describe Pronto::Punchlist::MessageCreator do
