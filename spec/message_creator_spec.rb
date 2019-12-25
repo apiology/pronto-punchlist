@@ -47,7 +47,7 @@ describe Pronto::Punchlist::MessageCreator do
     end
 
     it 'contains correct offense' do
-      expect(subject.msg).to eq('Uncompleted punchlist item detected -' \
+      expect(subject.msg).to eq('Uncompleted punchlist item detected--' \
                                 'consider resolving or moving this to ' \
                                 'your issue tracker')
     end
