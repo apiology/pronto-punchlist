@@ -5,70 +5,68 @@ require_relative '../../spec_helper'
 require 'pronto/punchlist/patch_validator'
 
 describe Pronto::Punchlist::PatchValidator do
-  let(:validator) do
-    Pronto::Punchlist::PatchValidator.new(source_file_globber: source_file_globber)
-  end
+  subject { validator.valid_patch?(patch) }
 
+  let(:validator) do
+    described_class.new(source_file_globber: source_file_globber)
+  end
+  # TODO: - do something like this:
+  # https://github.com/apiology/quality/blob/master/lib/quality/
+  #  linguist_source_file_globber.rb
+  # - should I export to its own repo?  Maybe import for now and
+  # just test that this calls into that interface?
   let(:source_file_globber) { double('source_file_globber') }
-  let(:patch) { double('patch') }
-  let(:filename) { double('filename') }
+  # let(:source_file_globber) do  # need to fix to include interface I want...
+  #  instance_double(SourceFinder::SourceFileGlobber, 'source_file_globber')
+  # end
+  let(:patch) { instance_double(Pronto::Git::Patch) }
+  let(:filename) { instance_double(String, 'filename') }
+
   before do
     allow(patch).to receive(:new_file_full_path) do
       filename
     end
+    allow(patch).to receive(:additions).and_return(additions)
   end
 
-  describe '#valid_patch?' do
-    subject { validator.valid_patch?(patch) }
+  context 'with an empty patch' do
+    let(:additions) { 0 }
 
-    context 'with an empty patch' do
-      before do
-        expect(patch).to receive(:additions) { 0 }
-      end
-      it 'rejects' do
-        should be false
-      end
+    it { is_expected.to be false }
+  end
+
+  context 'with a valid file' do
+    before do
+      allow(source_file_globber).to receive(:is_non_binary?)
+        .with(filename) { !file_is_binary }
     end
 
-    context 'with a valid file' do
+    let(:additions) { 1 }
+
+    context 'when it is the Ruby language' do
+      let(:file_is_binary) { false }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when it is binary' do
+      let(:file_is_binary) { true }
+
       before do
-        expect(patch).to receive(:additions) { 1 }
-        expect(source_file_globber).to receive(:is_non_binary?)
-          .with(filename) { !file_is_binary }
+        allow(patch).to receive(:patch).and_return('/foo/bar/baz.bin')
       end
 
-      context 'when it is the Ruby language' do
-        let(:file_is_binary) { false }
+      it { is_expected.to be false }
+    end
 
-        it 'accepts' do
-          should be true
-        end
+    context 'when it is a markdown file' do
+      let(:file_is_binary) { false }
+
+      before do
+        allow(patch).to receive(:patch).and_return('/foo/bar/baz.md')
       end
 
-      context 'when it is binary' do
-        let(:file_is_binary) { true }
-
-        before do
-          # TODO: - do something like this: https://github.com/apiology/quality/blob/master/lib/quality/linguist_source_file_globber.rb - should I export to its own repo?  Maybe import for now and just test that this calls into that interface?
-          allow(patch).to receive(:patch) { '/foo/bar/baz.bin' }
-        end
-
-        it 'rejects' do
-          should be false
-        end
-      end
-
-      context 'when it is a markdown file' do
-        let(:file_is_binary) { false }
-
-        before do
-          allow(patch).to receive(:patch) { '/foo/bar/baz.md' }
-        end
-
-        it 'accepts' do
-          should be true
-        end
-      end
+      it { is_expected.to be true }
     end
   end
 end

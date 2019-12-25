@@ -10,14 +10,15 @@ describe Pronto::Punchlist::PunchlistDriver do
     class_double(Punchlist::Inspector, 'inspector_class')
   end
   let(:punchlist_driver) do
-    Pronto::Punchlist::PunchlistDriver.new(punchlist_line_regexp,
-                                           inspector_class: inspector_class)
+    described_class.new(punchlist_line_regexp, inspector_class: inspector_class)
   end
   let(:punchlist_line_regexp) do
     instance_double(Regexp, 'punchlist_line_regexp')
   end
 
   describe '#inspect_filename' do
+    subject { punchlist_driver.inspect_filename(path) }
+
     before do
       allow(inspector_class).to receive(:new).with(punchlist_line_regexp,
                                                    path) do
@@ -27,11 +28,10 @@ describe Pronto::Punchlist::PunchlistDriver do
         inspector_response
       end
     end
+
     let(:inspector) { instance_double(Punchlist::Inspector, 'inspector') }
     let(:path) { instance_double(String, 'path') }
     let(:inspector_response) { instance_double(Array, 'inspector_response') }
-
-    subject { punchlist_driver.inspect_filename(path) }
 
     it 'delegates to punchlist inspector class' do
       expect(subject).to eq inspector_response

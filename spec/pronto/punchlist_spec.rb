@@ -9,10 +9,10 @@ describe Pronto::Punchlist do
   let(:patch_inspector) { instance_double(Pronto::Punchlist::PatchInspector) }
   let(:patch_validator) { instance_double(Pronto::Punchlist::PatchValidator) }
   let(:pronto_punchlist) do
-    Pronto::Punchlist.new(patches, commit,
-                          punchlist_driver: punchlist_driver,
-                          patch_inspector: patch_inspector,
-                          patch_validator: patch_validator)
+    described_class.new(patches, commit,
+                        punchlist_driver: punchlist_driver,
+                        patch_inspector: patch_inspector,
+                        patch_validator: patch_validator)
   end
 
   let(:punchlist_driver) do
@@ -20,19 +20,17 @@ describe Pronto::Punchlist do
                     'punchlist_driver')
   end
   let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
-  let(:filename) { double('filename') }
+  let(:filename) { instance_double(String, 'filename') }
 
   describe '#new' do
     subject { pronto_punchlist }
 
     let(:patches) { instance_double(Array, 'patches') }
 
-    it 'initializes' do
-      should_not eq(nil)
-    end
+    it { is_expected.not_to eq(nil) }
 
     it 'inherits from Pronto::Runner' do
-      expect(subject.class.superclass).to eq(Pronto::Runner)
+      expect(described_class.superclass).to eq(Pronto::Runner)
     end
   end
 
@@ -51,11 +49,9 @@ describe Pronto::Punchlist do
         end
       end
 
-      context 'with valid file' do
-        it 'passes back output of inspector' do
-          expect(subject).to eq(messages)
-          expect(patch_inspector).to have_received(:inspect_patch).with(patch)
-        end
+      it 'passes back output of inspector' do
+        expect(subject).to eq(messages)
+        expect(patch_inspector).to have_received(:inspect_patch).with(patch)
       end
     end
 
@@ -88,24 +84,23 @@ describe Pronto::Punchlist do
   describe '#inspect_patch' do
     subject { pronto_punchlist.inspect_patch(patch) }
 
-    let(:messages) { double('messages') }
-    let(:patches) { double('patches') }
+    let(:messages) { instance_double(Array, 'messages') }
+    let(:patches) { instance_double(Array, 'patches') }
 
     before do
       allow(patch_inspector).to receive(:inspect_patch).with(patch) { messages }
     end
 
-    it 'calls into @inspector' do
-      should be messages
-    end
+    it { is_expected.to be messages }
   end
 
   describe '#valid_patch?' do
     subject { pronto_punchlist.valid_patch?(patch) }
 
-    let(:messages) { double('messages') }
-    let(:patches) { double('patches') }
-    let(:validator_return) { double('validator_return') }
+    let(:messages) { instance_double(Array, 'messages') }
+    let(:patches) { instance_double(Array, 'patches') }
+    # https://www.rubytapas.com/2019/01/08/boolean/
+    let(:validator_return) { instance_double(Object, 'validator_return') }
 
     before do
       allow(patch_validator).to receive(:valid_patch?).with(patch) do
@@ -113,8 +108,6 @@ describe Pronto::Punchlist do
       end
     end
 
-    it 'calls into @inspector' do
-      should be validator_return
-    end
+    it { is_expected.to be validator_return }
   end
 end

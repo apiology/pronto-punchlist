@@ -27,6 +27,7 @@ module Pronto
       @patches.flat_map { |patch| inspect_patch(patch) }
     end
 
+    # TODO: This never gets called
     def valid_patch?(patch)
       @patch_validator.valid_patch?(patch)
     end
