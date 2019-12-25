@@ -33,7 +33,11 @@ module Pronto
     end
 
     def inspect_patch(patch)
-      @patch_inspector.inspect_patch(patch)
+      if valid_patch?(patch)
+        @patch_inspector.inspect_patch(patch)
+      else
+        []
+      end
     end
   end
 end

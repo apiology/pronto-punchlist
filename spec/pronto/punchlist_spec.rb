@@ -44,6 +44,8 @@ describe Pronto::Punchlist do
       let(:messages) { [message_a, message_b] }
 
       before do
+        allow(patch_validator).to receive(:valid_patch?).with(patch)
+                                                        .and_return(true)
         allow(patch_inspector).to receive(:inspect_patch).with(patch) do
           messages
         end
@@ -53,6 +55,21 @@ describe Pronto::Punchlist do
         expect(subject).to eq(messages)
         expect(patch_inspector).to have_received(:inspect_patch).with(patch)
       end
+    end
+
+    context 'with a single patch on a binary file' do
+      let(:patches) { [patch] }
+
+      before do
+        allow(patch_validator).to receive(:valid_patch?).with(patch)
+                                                        .and_return(false)
+      end
+
+      it 'does not run anything on file' do
+        subject
+      end
+
+      xit 'return no offenses'
     end
 
     context 'with two patches, the second of which returns two issues' do
@@ -65,6 +82,10 @@ describe Pronto::Punchlist do
       let(:messages_2) { [message_a, message_b] }
 
       before do
+        allow(patch_validator).to receive(:valid_patch?).with(patch_1)
+                                                        .and_return(true)
+        allow(patch_validator).to receive(:valid_patch?).with(patch_2)
+                                                        .and_return(true)
         allow(patch_inspector).to receive(:inspect_patch).with(patch_1) do
           messages_1
         end
@@ -79,35 +100,5 @@ describe Pronto::Punchlist do
         expect(patch_inspector).to have_received(:inspect_patch).with(patch_2)
       end
     end
-  end
-
-  describe '#inspect_patch' do
-    subject { pronto_punchlist.inspect_patch(patch) }
-
-    let(:messages) { instance_double(Array, 'messages') }
-    let(:patches) { instance_double(Array, 'patches') }
-
-    before do
-      allow(patch_inspector).to receive(:inspect_patch).with(patch) { messages }
-    end
-
-    it { is_expected.to be messages }
-  end
-
-  describe '#valid_patch?' do
-    subject { pronto_punchlist.valid_patch?(patch) }
-
-    let(:messages) { instance_double(Array, 'messages') }
-    let(:patches) { instance_double(Array, 'patches') }
-    # https://www.rubytapas.com/2019/01/08/boolean/
-    let(:validator_return) { instance_double(Object, 'validator_return') }
-
-    before do
-      allow(patch_validator).to receive(:valid_patch?).with(patch) do
-        validator_return
-      end
-    end
-
-    it { is_expected.to be validator_return }
   end
 end
