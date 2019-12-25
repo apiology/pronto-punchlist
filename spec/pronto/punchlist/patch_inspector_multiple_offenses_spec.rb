@@ -6,9 +6,8 @@ require 'pronto/punchlist/patch_inspector'
 
 describe Pronto::Punchlist::PatchInspector do
   let(:inspector) do
-    Pronto::Punchlist::PatchInspector
-      .new(punchlist_driver: punchlist_driver,
-           offense_matcher_class: offense_matcher_class)
+    described_class.new(punchlist_driver: punchlist_driver,
+                        offense_matcher_class: offense_matcher_class)
   end
   let(:offense_matcher_class) do
     class_double(Pronto::Punchlist::OffenseMatcher)
@@ -17,24 +16,25 @@ describe Pronto::Punchlist::PatchInspector do
     instance_double(Pronto::Punchlist::PunchlistDriver,
                     'punchlist_driver')
   end
-  let(:patch) { double('patch') }
-  let(:filename) { double('filename') }
-  before :each do
+  let(:patch) { instance_double(Pronto::Git::Patch) }
+  let(:filename) { instance_double(String, 'filename') }
+
+  before do
     allow(patch).to receive(:new_file_full_path) { filename }
   end
 
   describe '#inspect' do
     subject { inspector.inspect_patch(patch) }
 
-    before :each do
-      expect(punchlist_driver).to receive(:inspect_filename).with(filename) do
+    before do
+      allow(punchlist_driver).to receive(:inspect_filename).with(filename) do
         offenses
       end
     end
 
     let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
 
-    context 'two offenses in file' do
+    context 'when two offenses in file' do
       let(:offense_1) { double('offense_1') }
       let(:offense_2) { double('offense_2') }
       let(:message_1) { instance_double(Pronto::Message, 'message_1') }
@@ -47,7 +47,7 @@ describe Pronto::Punchlist::PatchInspector do
       end
       let(:offenses) { [offense_1, offense_2] }
 
-      before :each do
+      before do
         expect(offense_matcher_class).to receive(:new).with(offense_1) do
           offense_matcher_1
         end
@@ -62,7 +62,7 @@ describe Pronto::Punchlist::PatchInspector do
         end
       end
 
-      context 'and both related to patch' do
+      context 'when both related to patch' do
         let(:offense_1_results) { message_1 }
         let(:offense_2_results) { message_2 }
 
@@ -71,7 +71,7 @@ describe Pronto::Punchlist::PatchInspector do
         end
       end
 
-      context 'and only first related to patch' do
+      context 'when only first related to patch' do
         let(:offense_1_results) { message_1 }
         let(:offense_2_results) { nil }
 
@@ -80,7 +80,7 @@ describe Pronto::Punchlist::PatchInspector do
         end
       end
 
-      context 'and only second related to patch' do
+      context 'when only second related to patch' do
         let(:offense_1_results) { nil }
         let(:offense_2_results) { message_2 }
 
@@ -89,7 +89,7 @@ describe Pronto::Punchlist::PatchInspector do
         end
       end
 
-      context 'and both unrelated to patch' do
+      context 'when both unrelated to patch' do
         let(:offense_1_results) { nil }
         let(:offense_2_results) { nil }
 

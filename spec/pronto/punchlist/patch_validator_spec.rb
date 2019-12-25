@@ -12,7 +12,7 @@ describe Pronto::Punchlist::PatchValidator do
   let(:source_file_globber) { double('source_file_globber') }
   let(:patch) { double('patch') }
   let(:filename) { double('filename') }
-  before :each do
+  before do
     allow(patch).to receive(:new_file_full_path) do
       filename
     end
@@ -22,7 +22,7 @@ describe Pronto::Punchlist::PatchValidator do
     subject { validator.valid_patch?(patch) }
 
     context 'with an empty patch' do
-      before :each do
+      before do
         expect(patch).to receive(:additions) { 0 }
       end
       it 'rejects' do
@@ -31,13 +31,13 @@ describe Pronto::Punchlist::PatchValidator do
     end
 
     context 'with a valid file' do
-      before :each do
+      before do
         expect(patch).to receive(:additions) { 1 }
         expect(source_file_globber).to receive(:is_non_binary?)
           .with(filename) { !file_is_binary }
       end
 
-      context 'in the Ruby language' do
+      context 'when it is the Ruby language' do
         let(:file_is_binary) { false }
 
         it 'accepts' do
@@ -45,10 +45,10 @@ describe Pronto::Punchlist::PatchValidator do
         end
       end
 
-      context 'which is binary' do
+      context 'when it is binary' do
         let(:file_is_binary) { true }
 
-        before :each do
+        before do
           # TODO: - do something like this: https://github.com/apiology/quality/blob/master/lib/quality/linguist_source_file_globber.rb - should I export to its own repo?  Maybe import for now and just test that this calls into that interface?
           allow(patch).to receive(:patch) { '/foo/bar/baz.bin' }
         end
@@ -58,10 +58,10 @@ describe Pronto::Punchlist::PatchValidator do
         end
       end
 
-      context 'which is a markdown file' do
+      context 'when it is a markdown file' do
         let(:file_is_binary) { false }
 
-        before :each do
+        before do
           allow(patch).to receive(:patch) { '/foo/bar/baz.md' }
         end
 

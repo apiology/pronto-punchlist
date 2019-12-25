@@ -18,7 +18,7 @@ describe Pronto::Punchlist::PunchlistDriver do
   end
 
   describe '#inspect_filename' do
-    before :each do
+    before do
       allow(inspector_class).to receive(:new).with(punchlist_line_regexp,
                                                    path) do
         inspector

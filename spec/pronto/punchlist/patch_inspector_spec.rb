@@ -19,7 +19,7 @@ describe Pronto::Punchlist::PatchInspector do
   end
   let(:patch) { double('patch') }
   let(:filename) { double('filename') }
-  before :each do
+  before do
     allow(patch).to receive(:new_file_full_path) do
       filename
     end
@@ -28,7 +28,7 @@ describe Pronto::Punchlist::PatchInspector do
   describe '#inspect' do
     subject { inspector.inspect_patch(patch) }
 
-    before :each do
+    before do
       expect(punchlist_driver).to receive(:inspect_filename).with(filename) do
         offenses
       end
@@ -36,20 +36,20 @@ describe Pronto::Punchlist::PatchInspector do
 
     let(:patch) { instance_double(Pronto::Git::Patch) }
 
-    context 'no offenses are in file' do
+    context 'when no offenses are in file' do
       let(:offenses) { [] }
       it 'returns nothing' do
         should eq []
       end
     end
 
-    context 'one offense in file' do
+    context 'when one offense in file' do
       let(:offense) { double('offense') }
       let(:offenses) { [offense] }
       let(:offense_matcher) do
         instance_double(Pronto::Punchlist::OffenseMatcher)
       end
-      before :each do
+      before do
         expect(offense_matcher_class).to receive(:new).with(offense) do
           offense_matcher
         end
@@ -66,7 +66,7 @@ describe Pronto::Punchlist::PatchInspector do
         end
       end
 
-      context 'and unrelated to patch' do
+      context 'when unrelated to patch' do
         let(:offense_line) { after_end_of_change_line }
         let(:message) { nil }
 

@@ -45,13 +45,13 @@ describe Pronto::Punchlist do
       let(:message_b) { instance_double(Pronto::Message, 'message_b') }
       let(:messages) { [message_a, message_b] }
 
-      before :each do
+      before do
         allow(patch_inspector).to receive(:inspect_patch).with(patch) do
           messages
         end
       end
 
-      context 'which is valid' do
+      context 'with valid file' do
         it 'passes back output of inspector' do
           expect(subject).to eq(messages)
           expect(patch_inspector).to have_received(:inspect_patch).with(patch)
@@ -91,7 +91,7 @@ describe Pronto::Punchlist do
     let(:messages) { double('messages') }
     let(:patches) { double('patches') }
 
-    before :each do
+    before do
       allow(patch_inspector).to receive(:inspect_patch).with(patch) { messages }
     end
 
@@ -107,7 +107,7 @@ describe Pronto::Punchlist do
     let(:patches) { double('patches') }
     let(:validator_return) { double('validator_return') }
 
-    before :each do
+    before do
       allow(patch_validator).to receive(:valid_patch?).with(patch) do
         validator_return
       end
