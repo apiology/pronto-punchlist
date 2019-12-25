@@ -69,3 +69,5 @@ Style/StringLiterals:
 
 AllCops:
   TargetRubyVersion: 2.4
+
+require: rubocop-rspec
