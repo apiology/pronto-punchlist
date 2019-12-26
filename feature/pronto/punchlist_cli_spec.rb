@@ -87,7 +87,8 @@ describe Pronto::Punchlist do
       let(:example_files) do
         {
           'more_interesting.rb' =>
-          "puts 'hello world'\n# TODO: Write more code",
+          "puts 'hello world'\n# TOD" \
+          "O: Write more code",
         }
       end
 

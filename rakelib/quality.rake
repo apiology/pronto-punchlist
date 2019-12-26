@@ -6,5 +6,14 @@ Quality::Rake::Task.new do |task|
   task.exclude_files = ['Gemfile.lock']
   task.skip_tools = %w[reek cane]
   task.output_dir = 'metrics'
-  task.punchlist_regexp = 'XXX|TODO|FIXME|OPTIMIZE|HACK|REVIEW|LATER|FIXIT|xit '
+  task.punchlist_regexp = 'XX' \
+                          'X|TOD' \
+                          'O|FIXM' \
+                          'E|OPTIMIZ' \
+                          'E|HAC' \
+                          'K|REVIE' \
+                          'W|LATE' \
+                          'R|FIXI' \
+                          'T|xi' \
+                          't '
 end
