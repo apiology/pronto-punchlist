@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 require 'pronto'
+require_relative 'file_classifier'
 
 module Pronto
   class Punchlist < Runner
     # Determine if a patch contains analyzable files
     class PatchValidator
-      # TODO: why does this work?
-      def initialize(source_file_globber: nil)
-        @source_file_globber = source_file_globber
+      def initialize(file_classifier: FileClassifier.new)
+        @file_classifier = file_classifier
       end
 
       def valid_patch?(patch)
@@ -16,7 +16,7 @@ module Pronto
 
         path = patch.new_file_full_path
 
-        @source_file_globber.is_non_binary?(path)
+        @file_classifier.is_non_binary?(path)
       end
     end
   end
