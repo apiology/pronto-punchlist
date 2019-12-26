@@ -16,7 +16,7 @@ module Pronto
 
         path = patch.new_file_full_path
 
-        @file_classifier.is_non_binary?(path)
+        @file_classifier.non_binary?(path)
       end
     end
   end

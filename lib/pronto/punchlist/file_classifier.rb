@@ -2,12 +2,13 @@
 
 module Pronto
   class Punchlist < Runner
+    # Classify whether files are relevant to punchlist
     class FileClassifier
       def initialize(source_file_globber: SourceFinder::SourceFileGlobber.new)
         @source_file_globber = source_file_globber
       end
 
-      def is_non_binary?(path)
+      def non_binary?(path)
         # https://ruby-doc.org/core-2.5.1/File.html#method-c-fnmatch
         # EXTGLOB enables ',' as part of glob language
         File.fnmatch?(@source_file_globber.source_and_doc_files_glob,

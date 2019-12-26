@@ -31,7 +31,7 @@ describe Pronto::Punchlist::PatchValidator do
 
   context 'with a valid file' do
     before do
-      allow(file_classifier).to receive(:is_non_binary?)
+      allow(file_classifier).to receive(:non_binary?)
         .with(filename) { !file_is_binary }
     end
 

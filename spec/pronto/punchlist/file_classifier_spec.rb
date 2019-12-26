@@ -7,8 +7,8 @@ require 'pronto/punchlist/file_classifier'
 describe Pronto::Punchlist::FileClassifier do
   let(:file_classifier) { described_class.new }
 
-  describe '#is_non_binary?' do
-    subject { file_classifier.is_non_binary?(filename) }
+  describe '#non_binary?' do
+    subject { file_classifier.non_binary?(filename) }
 
     context 'when Ruby' do
       let(:filename) { 'foo.rb' }
