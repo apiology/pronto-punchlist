@@ -6,7 +6,7 @@ require 'pronto/punchlist/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'pronto-punchlist'
-  spec.version       = Pronto::Punchlist::VERSION
+  spec.version       = Pronto::PunchlistVersion::VERSION
   spec.authors       = ['Vince Broz']
   spec.email         = ['vince@broz.cc']
 
@@ -36,8 +36,13 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'pronto'
+  # Punchlist internals were refactored in version 1.3.0 and a
+  # reasonable API exposed:
+  spec.add_dependency 'punchlist', '>= 1.3.0'
+
   spec.add_development_dependency 'bundler', '~> 2.0'
-  spec.add_development_dependency 'quality'
+  spec.add_development_dependency 'quality', '~> 36'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'simplecov'

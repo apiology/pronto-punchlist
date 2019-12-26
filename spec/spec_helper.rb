@@ -36,14 +36,4 @@ ENV['PATH'] = [exec_dir, ENV['PATH']].join(File::PATH_SEPARATOR)
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[RSpec.root.join('support/**/*.rb')].each { |f| require f }
-
-def let_double(*doubles)
-  # Consider a verifying double instead of this:
-  #  https://relishapp.com/rspec/rspec-mocks/v/3-9/docs/verifying-doubles
-  # rubocop:disable RSpec/VerifiedDoubles
-  doubles.each do |double_sym|
-    let(double_sym) { double(double_sym.to_s) }
-  end
-  # rubocop:enable RSpec/VerifiedDoubles
-end
+Dir[RSpec.root.join('support/**/*.rb')].sort.each { |f| require f }
