@@ -15,18 +15,16 @@ module Pronto
 
       def inspect_patch(patch)
         patch.added_lines.each do |line|
-          message = inspect_line(patch.new_file_full_path, line)
+          message = inspect_line(line)
           return message unless message.nil?
         end
         nil
       end
 
-      def inspect_line(path, line)
-        # TODO: What if path differs - why are we taking in path if we
-        # know it otherwise?
+      def inspect_line(line)
         return nil unless line.new_lineno == @offense.line_num
 
-        @message_creator.create(path, line)
+        @message_creator.create(@offense.filename, line)
       end
     end
   end

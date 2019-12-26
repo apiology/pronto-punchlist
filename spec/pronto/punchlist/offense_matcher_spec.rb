@@ -18,25 +18,33 @@ describe Pronto::Punchlist::OffenseMatcher do
     subject { offense_matcher.inspect_patch(patch) }
 
     let(:message) { instance_double(Pronto::Message, 'message') }
-    let(:patch) { instance_double(Pronto::Git::Patch) }
+    let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
     let(:start_of_change_line) { 5 }
     let(:middle_of_change_line) { 6 }
     let(:end_of_change_line) { 7 }
     let(:after_end_of_change_line) { 8 }
-    let(:commit_sha) { instance_double(String) }
-    let(:new_file_full_path) { instance_double(String) }
+    let(:commit_sha) { instance_double(String, 'commit_sha') }
+    let(:new_file_full_path) { instance_double(String, 'new_file_full_path') }
 
     let(:start_of_change_line_obj) do
-      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+      instance_double(Pronto::Git::Line,
+                      'start_of_change_line_obj',
+                      commit_sha: commit_sha)
     end
     let(:middle_of_change_line_obj) do
-      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+      instance_double(Pronto::Git::Line,
+                      'middle_of_change_line_obj',
+                      commit_sha: commit_sha)
     end
     let(:end_of_change_line_obj) do
-      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+      instance_double(Pronto::Git::Line,
+                      'end_of_change_line_obj',
+                      commit_sha: commit_sha)
     end
     let(:after_end_of_change_line_obj) do
-      instance_double(Pronto::Git::Line, commit_sha: commit_sha)
+      instance_double(Pronto::Git::Line,
+                      'after_end_of_change_line_obj',
+                      commit_sha: commit_sha)
     end
 
     before do
@@ -62,6 +70,7 @@ describe Pronto::Punchlist::OffenseMatcher do
         end_of_change_line
       end
       allow(offense).to receive(:line_num) { offense_line }
+      allow(offense).to receive(:filename) { new_file_full_path }
       allow(patch).to receive(:new_file_full_path) { new_file_full_path }
     end
 
