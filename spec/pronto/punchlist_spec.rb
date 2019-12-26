@@ -65,11 +65,7 @@ describe Pronto::Punchlist do
                                                         .and_return(false)
       end
 
-      it 'does not run anything on file' do
-        subject
-      end
-
-      xit 'return no offenses'
+      it { is_expected.to eq([]) }
     end
 
     context 'with two patches, the second of which returns two issues' do
