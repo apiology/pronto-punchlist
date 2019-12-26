@@ -13,26 +13,6 @@ describe Pronto::Punchlist do
     }
   end
 
-  describe 'bundle exec pronto' do
-    let(:expected_output) do
-      <<~OUTPUT
-        Commands:
-          pronto help [COMMAND]   # Describe available commands or one specific command
-          pronto list             # Lists pronto runners that are available to be used
-          pronto run [PATH]       # Run Pronto
-          pronto verbose-version  # Display verbose version
-          pronto version          # Display version
-
-      OUTPUT
-    end
-
-    it 'includes pronto as a dependency' do
-      out, exit_code = Open3.capture2e(env, 'bundle exec pronto')
-      expect(out).to eq(expected_output)
-      expect(exit_code).to eq(0)
-    end
-  end
-
   describe 'bundle exec pronto list' do
     let(:expected_output) do
       <<~OUTPUT
