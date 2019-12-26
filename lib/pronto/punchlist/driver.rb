@@ -7,7 +7,6 @@ module Pronto
   class Punchlist < Runner
     # Adapts the Punchlist gem for use
     class PunchlistDriver
-      # TODO: Is this class large enough to live?
       def initialize(punchlist_line_regexp,
                      inspector_class: ::Punchlist::Inspector)
         @punchlist_line_regexp = punchlist_line_regexp
