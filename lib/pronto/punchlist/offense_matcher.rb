@@ -24,7 +24,7 @@ module Pronto
       def inspect_line(line)
         return nil unless line.new_lineno == @offense.line_num
 
-        @message_creator.create(@offense.filename, line)
+        @message_creator.create(line.patch.delta.new_file[:path], line)
       end
     end
   end
