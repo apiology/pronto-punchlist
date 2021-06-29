@@ -74,8 +74,8 @@ describe Pronto::Punchlist do
 
       let(:expected_output) do
         "more_interesting.rb:2 W: " \
-        "Uncompleted punchlist item detected--consider resolving or " \
-        "moving this to your issue tracker\n"
+          "Uncompleted punchlist item detected--consider resolving or " \
+          "moving this to your issue tracker\n"
       end
 
       it 'runs and finds files to run' do

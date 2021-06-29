@@ -9,8 +9,7 @@ exec_dir = File.join(File::SEPARATOR, root_dir, 'bin')
 ENV['PATH'] = [exec_dir, ENV['PATH']].join(File::PATH_SEPARATOR)
 
 # Courtesy of:
-# https://raw.github.com/cupakromer/tao-of-tdd/master/adder/spec/support/
-#    capture_exec.rb
+# https://github.com/cupakromer/tao-of-tdd/blob/master/adder/spec/support/capture_exec.rb
 def exec_io(*cmd)
   cmd = cmd.flatten
   env = {

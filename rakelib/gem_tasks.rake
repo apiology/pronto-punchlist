@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-task ci: :localtest
+require 'bundler/gem_tasks'

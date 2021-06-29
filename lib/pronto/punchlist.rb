@@ -23,6 +23,7 @@ module Pronto
     end
 
     class Error < StandardError; end
+
     def run
       @patches.flat_map { |patch| inspect_patch(patch) }
     end
