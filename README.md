@@ -1,6 +1,6 @@
 # Pronto::Punchlist
 
-[![Build Status](https://travis-ci.org/apiology/pronto-punchlist.svg?branch=master)](https://travis-ci.org/apiology/pronto-punchlist)
+[![Build Status](https://travis-ci.org/apiology/pronto-punchlist.svg?branch=main)](https://travis-ci.org/apiology/pronto-punchlist)
 
 Performs incremental quality reporting for the punchlist gem.
 Punchlist reports on any 'TOD O'-style comments in code; this gem plugs
@@ -63,4 +63,4 @@ The gem is available as open source under the terms of the
 
 Everyone interacting in the Pronto::Punchlist project’s codebases,
 issue trackers, chat rooms and mailing lists is expected to follow the
-[code of conduct](https://github.com/[USERNAME]/pronto-punchlist/blob/master/CODE_OF_CONDUCT.md).
+[code of conduct](https://github.com/[USERNAME]/pronto-punchlist/blob/main/CODE_OF_CONDUCT.md).
