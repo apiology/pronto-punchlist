@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'open3'
+require 'rubygems'
+require 'bundler/setup'
 
 # Add the bin directory, to allow testing of gem executables as if the gem is
 # already installed.
