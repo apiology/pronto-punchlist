@@ -106,6 +106,7 @@ jobs:
           label: Test
           command: |
             bundle --version  # TODO remove me
+            gem install bundler:2.2.21 # TODO remove me
             bundle exec rake citest
             # https://github.com/bluelabsio/records-mover/blob/master/Makefile#L25
             git status --porcelain coverage/.last_run.json
