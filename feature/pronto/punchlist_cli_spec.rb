@@ -7,9 +7,9 @@ require 'tmpdir'
 describe Pronto::Punchlist do
   let(:env) do
     {
-      # Avoid spurious deprecation warnings in things which are out of
-      # our control
-      'RUBYOPT' => '-W0',
+      #      # Avoid spurious deprecation warnings in things which are out of
+      #      # our control
+      #      'RUBYOPT' => '-W0', # TODO uncomment
     }
   end
 
