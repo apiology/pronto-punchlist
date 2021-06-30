@@ -16,6 +16,7 @@ commands:
       - run:
           name: <<parameters.label>>
           command: |
+            export PATH="${HOME}/project/bin:${PATH}"  # TODO: Remove
             export PATH="${HOME}/.pyenv/bin:${PATH}"
             export PATH="${HOME}/.rbenv/bin:${HOME}/.rbenv/shims:${PATH}"
             export PATH="${HOME}/project/node_modules/.bin:${PATH}"
