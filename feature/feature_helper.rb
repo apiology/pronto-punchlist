@@ -8,20 +8,6 @@ root_dir = RSpec::Core::RubyProject.root
 exec_dir = File.join(File::SEPARATOR, root_dir, 'bin')
 ENV['PATH'] = [exec_dir, ENV['PATH']].join(File::PATH_SEPARATOR)
 
-# Courtesy of:
-# https://github.com/cupakromer/tao-of-tdd/blob/master/adder/spec/support/capture_exec.rb
-def exec_io(*cmd)
-  cmd = cmd.flatten
-  env = {
-    # Avoid spurious deprecation warnings in things which are out of
-    # our control
-    'RUBYOPT' => '-W0',
-  }
-  all_out, _exit_code = Open3.capture2e(env, *cmd)
-
-  all_out
-end
-
 RSpec.configure do |config|
   config.filter_run_excluding :wip
   config.run_all_when_everything_filtered = true
