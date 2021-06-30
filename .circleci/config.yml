@@ -66,6 +66,7 @@ commands:
           command: |
             curl -fLSs \
             https://raw.githubusercontent.com/CircleCI-Public/circleci-cli/master/install.sh | sudo bash
+            bundle --version  # TODO remove me
   overcommit:
     description: "Run overcommit"
     steps:
