@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../feature_helper'
-require 'rubygems' # TODO: remove
-require 'bundler/setup' # TODO: remove
 require 'pronto/punchlist'
 require 'tmpdir'
 
