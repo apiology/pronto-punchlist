@@ -126,7 +126,7 @@ PLATFORMS
 
 DEPENDENCIES
   bump
-  bundler
+  bundler (~> 2)
   minitest-profile
   overcommit (>= 0.58.0)
   pronto-punchlist!
@@ -141,4 +141,4 @@ DEPENDENCIES
   undercover
 
 BUNDLED WITH
-   2.2.19
+   2.2.21
