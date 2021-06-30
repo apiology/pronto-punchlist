@@ -109,9 +109,6 @@ jobs:
             git config --global user.email "test@test.test"
             git config --global user.name "Test Test"
 
-            bundle --version  # TODO remove me
-            bin/pronto --help  # TODO remove me
-            echo $RUBYOPT # TODO remove me
             bundle exec rake citest
             # https://github.com/bluelabsio/records-mover/blob/master/Makefile#L25
             git status --porcelain coverage/.last_run.json
