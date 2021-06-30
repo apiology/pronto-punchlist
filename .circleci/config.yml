@@ -16,7 +16,6 @@ commands:
       - run:
           name: <<parameters.label>>
           command: |
-            export PATH="${HOME}/project/bin:${PATH}"  # TODO: Remove
             export PATH="${HOME}/.pyenv/bin:${PATH}"
             export PATH="${HOME}/.rbenv/bin:${HOME}/.rbenv/shims:${PATH}"
             export PATH="${HOME}/project/node_modules/.bin:${PATH}"
@@ -106,6 +105,10 @@ jobs:
       - run_with_languages:
           label: Test
           command: |
+            # Coax pronto into working
+            git config --global user.email "test@test.test"
+            git config --global user.name "Test Test"
+
             bundle --version  # TODO remove me
             bin/pronto --help  # TODO remove me
             bundle exec rake citest
