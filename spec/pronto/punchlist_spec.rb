@@ -43,7 +43,7 @@ describe Pronto::Punchlist do
 
       before do
         allow(patch_validator).to receive(:valid_patch?).with(patch)
-                                                        .and_return(true)
+          .and_return(true)
         allow(patch_inspector).to receive(:inspect_patch).with(patch) do
           messages
         end
@@ -62,39 +62,39 @@ describe Pronto::Punchlist do
 
       before do
         allow(patch_validator).to receive(:valid_patch?).with(patch)
-                                                        .and_return(false)
+          .and_return(false)
       end
 
       it { is_expected.to eq([]) }
     end
 
     context 'with two patches, the second of which returns two issues' do
-      let(:patch_1) { instance_double(Pronto::Git::Patch, 'patch_1') }
-      let(:patch_2) { instance_double(Pronto::Git::Patch, 'patch_2') }
-      let(:patches) { [patch_1, patch_2] }
+      let(:patch1) { instance_double(Pronto::Git::Patch, 'patch1') }
+      let(:patch2) { instance_double(Pronto::Git::Patch, 'patch2') }
+      let(:patches) { [patch1, patch2] }
       let(:message_a) { instance_double(Pronto::Message, 'message_a') }
       let(:message_b) { instance_double(Pronto::Message, 'message_b') }
-      let(:messages_1) { [] }
-      let(:messages_2) { [message_a, message_b] }
+      let(:messages1) { [] }
+      let(:messages2) { [message_a, message_b] }
 
       before do
-        allow(patch_validator).to receive(:valid_patch?).with(patch_1)
-                                                        .and_return(true)
-        allow(patch_validator).to receive(:valid_patch?).with(patch_2)
-                                                        .and_return(true)
-        allow(patch_inspector).to receive(:inspect_patch).with(patch_1) do
-          messages_1
+        allow(patch_validator).to receive(:valid_patch?).with(patch1)
+          .and_return(true)
+        allow(patch_validator).to receive(:valid_patch?).with(patch2)
+          .and_return(true)
+        allow(patch_inspector).to receive(:inspect_patch).with(patch1) do
+          messages1
         end
-        allow(patch_inspector).to receive(:inspect_patch).with(patch_2) do
-          messages_2
+        allow(patch_inspector).to receive(:inspect_patch).with(patch2) do
+          messages2
         end
       end
 
       it 'returns messages passed back by inspector' do
         aggregate_failures 'message and side-effects' do
           expect(pronto_report).to eq([message_a, message_b])
-          expect(patch_inspector).to have_received(:inspect_patch).with(patch_1)
-          expect(patch_inspector).to have_received(:inspect_patch).with(patch_2)
+          expect(patch_inspector).to have_received(:inspect_patch).with(patch1)
+          expect(patch_inspector).to have_received(:inspect_patch).with(patch2)
         end
       end
     end

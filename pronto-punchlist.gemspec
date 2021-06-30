@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
     hasn't been done; this gem plugs in with the 'pronto' gem, which does
     incremental reporting using a variety of quality tools}
   DESCRIPTION
+  spec.required_ruby_version = '>= 2.6'
   spec.homepage      = 'https://github.com/apiology/pronto-punchlist'
   spec.license       = 'MIT'
 
@@ -41,9 +42,19 @@ Gem::Specification.new do |spec|
   # reasonable API exposed:
   spec.add_dependency 'punchlist', '>= 1.3.0'
 
-  spec.add_development_dependency 'bundler', '~> 2.0'
-  spec.add_development_dependency 'quality', '~> 36'
+  spec.add_development_dependency 'bump'
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'minitest-profile'
+  # 0.58.0 and 0.57.0 don't seem super compatible with signatures, and
+  # magit doesn't seem to want to use the bundled version at the moment,
+  # so let's favor the more recent version...
+  spec.add_development_dependency 'overcommit', ['>=0.58.0']
   spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'rspec', '>=3.4'
+  spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'rubocop-rake'
+  spec.add_development_dependency 'rubocop-rspec'
   spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'simplecov-lcov'
+  spec.add_development_dependency 'undercover'
 end

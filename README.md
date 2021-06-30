@@ -1,7 +1,5 @@
 # Pronto::Punchlist
 
-[![Build Status](https://travis-ci.org/apiology/pronto-punchlist.svg?branch=main)](https://travis-ci.org/apiology/pronto-punchlist)
-
 Performs incremental quality reporting for the punchlist gem.
 Punchlist reports on any 'TOD O'-style comments in code; this gem plugs
 in with the 'pronto' gem, which does incremental reporting using a

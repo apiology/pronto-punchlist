@@ -9,7 +9,9 @@ describe Pronto::Punchlist do
     {
       # Avoid spurious deprecation warnings in things which are out of
       # our control
-      'RUBYOPT' => '-W0',
+      #
+      # Save existing RUBYOPT if set; bundler uses it
+      'RUBYOPT' => [ENV['RUBYOPT'], '-W0'].compact.join(' '),
     }
   end
 
@@ -74,8 +76,8 @@ describe Pronto::Punchlist do
 
       let(:expected_output) do
         "more_interesting.rb:2 W: " \
-        "Uncompleted punchlist item detected--consider resolving or " \
-        "moving this to your issue tracker\n"
+          "Uncompleted punchlist item detected--consider resolving or " \
+          "moving this to your issue tracker\n"
       end
 
       it 'runs and finds files to run' do
