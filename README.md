@@ -1,5 +1,7 @@
 # Pronto::Punchlist
 
+[![CircleCI](https://circleci.com/gh/apiology/pronto-punchlist.svg?style=svg)](https://circleci.com/gh/apiology/pronto-punchlist)
+
 Performs incremental quality reporting for the punchlist gem.
 Punchlist reports on any 'TOD O'-style comments in code; this gem plugs
 in with the 'pronto' gem, which does incremental reporting using a
