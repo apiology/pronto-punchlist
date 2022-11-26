@@ -3,6 +3,7 @@
 [![CircleCI](https://circleci.com/gh/apiology/pronto-punchlist.svg?style=svg)](https://circleci.com/gh/apiology/pronto-punchlist)
 
 Performs incremental quality reporting for the punchlist gem.
+
 Punchlist reports on any 'TOD O'-style comments in code; this gem plugs
 in with the 'pronto' gem, which does incremental reporting using a
 variety of quality tools.
@@ -64,3 +65,15 @@ The gem is available as open source under the terms of the
 Everyone interacting in the Pronto::Punchlist project’s codebases,
 issue trackers, chat rooms and mailing lists is expected to follow the
 [code of conduct](https://github.com/[USERNAME]/pronto-punchlist/blob/main/CODE_OF_CONDUCT.md).
+
+## Contributions
+
+This project, as with all others, rests on the shoulders of a broad
+ecosystem supported by many volunteers doing thankless work, along
+with specific contributors.
+
+In particular I'd like to call out:
+
+* [Audrey Roy Greenfeld](https://github.com/audreyfeldroy) for the
+  cookiecutter tool and associated examples, which keep my many
+  projects building with shared boilerplate with a minimum of fuss.
