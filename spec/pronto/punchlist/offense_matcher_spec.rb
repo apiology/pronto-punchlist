@@ -93,7 +93,7 @@ describe Pronto::Punchlist::OffenseMatcher do
       let(:offense_line) { after_end_of_change_line }
       let(:patch_line_obj) { after_end_of_change_line_obj }
 
-      it { is_expected.to eq(nil) }
+      it { is_expected.to be_nil }
     end
   end
 end
