@@ -11,7 +11,7 @@ describe Pronto::Punchlist do
       # our control
       #
       # Save existing RUBYOPT if set; bundler uses it
-      'RUBYOPT' => [ENV['RUBYOPT'], '-W0'].compact.join(' '),
+      'RUBYOPT' => [ENV.fetch('RUBYOPT', nil), '-W0'].compact.join(' '),
     }
   end
 
