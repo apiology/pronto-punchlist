@@ -68,7 +68,7 @@ GEM
     octokit (4.21.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
-    overcommit (0.58.0)
+    overcommit (0.60.0)
       childprocess (>= 0.6.3, < 5)
       iniparse (~> 1.4)
       rexml (~> 3.2)
@@ -154,18 +154,19 @@ PLATFORMS
   x86_64-darwin-20
   x86_64-darwin-21
   x86_64-linux
+  x86_64-linux-musl
 
 DEPENDENCIES
   bump
   bundler
   fakeweb
   mdl
-  overcommit (>= 0.58.0)
+  overcommit (>= 0.60.0, < 0.61.0)
   pronto-punchlist!
   pry
   rake (~> 13.0)
   rspec (>= 3.4)
-  rubocop (~> 1.36)
+  rubocop (~> 1.36, < 1.44)
   rubocop-rake
   rubocop-rspec (>= 2.10.0)
   simplecov (>= 0.18.0)
