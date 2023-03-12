@@ -71,7 +71,7 @@ RSpec/NestedGroups:
 
 # Likewise
 RSpec/MultipleMemoizedHelpers:
-  Max: 8
+  Max: 21
 
 # Ensure we reference constants on classes in instance_double() so
 # that a renamed class is caught and doubles are always actually
